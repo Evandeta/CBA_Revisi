@@ -1,0 +1,806 @@
+/* tambahkan font Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+i* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, table, th, td, input, select, textarea, button {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  width: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  padding: 10px ;
+  background-color: #ffffff;
+  border-radius: 10px;
+  font: optional;
+}
+
+h1.text-center {
+  margin-bottom: 50px;
+}
+.logo {
+  margin-right: 20px;
+}
+
+.navbar {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px; /* Add some padding */
+  margin: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(218, 207, 207, 0.712);
+  width: 100%; /* Set a fixed width or use a flexible width */
+}
+
+.container {
+  max-width: 1200px; /* Atur sesuai dengan lebar maksimum yang diinginkan */
+  margin: 0 auto; /* Centering the container */
+  padding: 0 20px; /* Padding kiri dan kanan */
+}
+
+.navbar .container {
+  max-width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 0px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.nav-links li {
+  margin-right: 15px;
+}
+
+.nav-links a {
+  color: white; /* Warna teks */
+  text-decoration: none;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column; /* Mengubah tata letak menjadi vertikal */
+    align-items: center;
+  }
+
+  .nav-links li {
+    margin: 10px 0;
+  }
+}
+
+.logo {
+  margin-right: 100px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar .nav-links li {
+  margin-right: 20px;
+}
+
+.navbar .nav-links a {
+  color: #000000;
+  text-decoration: none;
+  transition: color 0.5s ease;
+}
+
+.navbar .nav-links a:hover {
+  color: #ccc;
+}
+
+.hamburger {
+  display: none;
+}
+
+
+@media only screen and (max-width: 768px) {
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+  .nav-links {
+    display: none;
+  }
+}
+.nav-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 10px;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-right: 20px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 18px;
+}
+
+.nav-links a:hover {
+  color: #ccc;
+}
+
+nav {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  float: right;
+  margin-top: 20px;
+  margin-left: auto;
+}
+
+nav a {
+  color: #000000; /* white text color */
+  text-decoration: none;
+  transition: color 0.2s ease; /* add a smooth transition effect */
+  font-size: 18px; /* increase font size */
+  font-weight: bold; /* make font bold */
+}
+
+nav a:hover {
+  color: #000000; /* light gray text color on hover */
+  background-color: #ffffff; /* dark gray background color on hover */
+  padding: none; /* add some padding on hover */
+  border-radius: none; /* add a rounded corner effect */
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li { 
+  margin-left: 20px;
+}
+
+nav ul li {
+  margin: 0 1rem;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  color: #ccc;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body {
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+.form {
+  background-color: #ffffff;
+  border-color: #ccc;
+}
+
+.form h1, .form h2 {
+  font-size: 24px;
+}
+
+.form input[type="text"], .form input[type="email"], .form input[type="number"] {
+  color: #000000;
+}
+
+.form-step-group {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px; 
+  margin: 40px auto; 
+  margin-bottom: 20px;
+}
+.form-step {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: felx;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.form-step table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.form-step th, .form-step td {
+  padding: 10px;
+  border: 1px solid #ffffff;
+}
+.form-step th {
+  background-color: #ffffff;
+}
+.form-step td ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.form-step td ul li {
+  margin-bottom: 10px;
+}
+.form-step td ul li strong {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.form .form-section {
+  padding: 20px;
+}
+
+.btns-group {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+}
+
+.btn-prev {
+  margin-right: 20px;
+}
+.form-step-active {
+  display: flex;
+}
+.input-group {
+  flex-basis: 45%;
+  margin: 10px;
+}
+
+table {
+  width: 100%;
+}
+
+th, td {
+  padding: 10px
+}
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background-color: lightgray;
+  margin-top: 20px;
+}
+
+.progress {
+  width: 0;
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s;
+}
+
+span {
+  margin-left: 10px;
+}
+.progress-bar span {
+  flex-basis: 20%;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 2px solid #ffffff;
+  position: relative;
+  font-family: 'Poppins', sans-serif; /* kept the font family as Poppins */
+  font-size: 16px; /* increased the font size for better readability */
+  font-weight: bold; /* made the font bold for better visibility */
+  color: #333; /* changed the text color to a darker gray */
+}
+
+.progress-bar span.active {
+  border-bottom: 2px solid #ffffff;
+  font-weight: bold;
+  color: #000000;
+  background-color: #ffffff; /* added a light gray background color to the active step */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar span.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  opacity: 0.2;
+  border-radius: 10px;
+}
+
+.progress-bar i {
+  font-size: 18px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.progress-bar i:hover {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.progress-count {
+  font-size: 12px;
+  color: #666666;
+  margin-left: 10px;
+}
+
+.invalid-row {
+  background-color: #ffc0c0;
+  animation: shake 0.5s;
+}
+.empty-cell {
+  background-color: #ff0000; /* red background color */
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+body {
+  background-color: #fff;
+}
+
+.form-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  padding: 10px 20px;
+  background-color: lightgray;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+.step-btn i {
+  font-size: 20px; /* Icon size */
+}
+
+.step-btn.active {
+  background-color: #4caf50; /* Active step color */
+  color: white;
+}
+
+.step-btn.completed {
+  background-color: #2196f3; /* Completed step color */
+  color: white;
+}
+
+
+.input-group {
+  flex-basis: 45%;
+  margin: 10px;
+}
+
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.progress-bar span {
+  flex-basis: 20%;
+  text-align: center;
+}
+
+.progress-bar span.active {
+  font-weight: bold;
+}
+
+.invalid-row {
+  background-color: #ffc0c0;
+  animation: shake 0.5s;
+}
+
+.empty-cell {
+  background-color: #ff0000; /* red background color */
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid #ddd;
+  padding: 5px;
+  text-align: left;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group select {
+  width: 250px; /* Set a consistent width */
+  padding: 10px; /* Set a consistent padding */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer; /* Add a pointer cursor */
+  transition: background-color 0.2s ease; /* Add a transition effect */
+}
+
+.input-group select:hover {
+  background-color: #f2f2f2; /* Change the background color on hover */
+}
+
+.input-group select:focus {
+  border-color: #337ab7; /* Change the border color on focus */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a box shadow on focus */
+}
+
+.btns-group {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.btns-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn-primary {
+  background-color: #4567b7;
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #ffffff;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+#btn-save-data {
+  background-color: #4567b7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+#btn-save-data:hover {
+  background-color: #3e8e41;
+}
+
+#btn-save-data:active {
+  background-color: #3e8e41;
+  transform: translateY(2px);
+}
+
+.btn {
+  background-color: #4567b7;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 5px;
+}
+
+.btn-prev {
+  background-color: #ccc;
+  color: #000;
+}
+
+.btn-next {
+  background-color: #4567b7;
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: #3353a7;
+}
+
+.btn-prev:hover {
+  background-color: #bbb;
+}
+
+.btn-next:hover {
+  background-color: #3353a7;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+.form {
+  width: 80%;
+  margin: 10px auto;
+}
+.selector-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+select {
+  padding: 20px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+@media (max-width: 768px) {
+  .input-group {
+    flex-basis: 100%;
+  }
+}
+
+/* Membuat layout form submission lebih rapi */
+.form-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  margin-top: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  width: 100%;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.form-group label {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.form-group input, .form-group select {
+  width: 80%;
+  height: 40px;
+  padding: 10px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: #000000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group input[type="text"], .input-group input[type="email"], .input-group input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  box-sizing: border-box; /* Add this line */
+}
+
+.input-group select {
+  width: 100%; /* Make the select field take up the full width */
+  padding: 10px; /* Add some padding to make it look better */
+  border: 1px solid #000000; /* Add a border to make it look like a form field */
+  border-radius: 5px; /* Add a rounded corner effect */
+  box-sizing: border-box; /* Make the width include the padding and border */
+  height: 40px; /* Make the select dropdown the same height as the other form fields */
+}
+
+.btn-next, .btn-prev {
+  background-color: #4567b7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-next:hover, .btn-prev:hover {
+  background-color: #4567b7;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Membuat tampilan review submission lebih rapi */
+.review-submission {
+  background-color: #000000;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-submission h2 {
+  margin-top: 0;
+}
+
+.review-submission ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.review-submission li {
+  margin-bottom: 10px;
+}
+
+.review-submission li span {
+  font-weight: bold;
+}
+
+
+/* Membuat tampilan tombol submit lebih rapi */
+.submit-btn {
+  background-color: #4567b7;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #4567b7;
+}
+
+.input-group input[type="text"], .input-group input[type="email"], .input-group input[type="number"], .input-group input[type="string"], .input-group input[type="integer"]{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.input-group input[type="string"] {
+  height: 40px; /* adjust the height to your liking */
+  font-size: 16px; /* adjust the font size to your liking */
+  font-family: 'Poppins', sans-serif; /* inherit the font family from the body */
+}
+

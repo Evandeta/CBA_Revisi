@@ -1,0 +1,40 @@
+document.getElementById('next-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const fullname = document.getElementById('fullname').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const district = document.getElementById('district').value;
+    const country = document.getElementById('country').value;
+    const zip = document.getElementById('zip').value;
+    const accomodationName = document.getElementById('accomodation-name').value;
+    const accomodationAddress = document.getElementById('accomodation-address').value;
+    const emergencyFullname = document.getElementById('emergency-fullname').value;
+    const emergencyRelationship = document.getElementById('emergency-relationship').value;
+    const emergencyAddress = document.getElementById('emergency-address').value;
+    const emergencyCountry = document.getElementById('emergency-country').value;
+    const emergencyEmail = document.getElementById('emergency-email').value;
+    const emergencyPhone = document.getElementById('emergency-phone').value;
+    const travelDocument = document.getElementById('travel-document').value;
+    const documentNumber = document.getElementById('document-number').value;
+
+    document.getElementById('client-fullname').textContent = fullname;
+    document.getElementById('client-email').textContent = email;
+    document.getElementById('client-phone').textContent = phone;
+    document.getElementById('client-address').textContent = address;
+    document.getElementById('client-city').textContent = region;
+    document.getElementById('client-state').textContent = district;
+    document.getElementById('client-country').textContent = country;
+    document.getElementById('client-zip').textContent = zip;
+    document.getElementById('client-accomodation-name').textContent = accomodationName;
+    document.getElementById('client-accomodation-address').textContent = accomodationAddress;
+    document.getElementById('client-emergency-fullname').textContent = emergencyFullname;
+    document.getElementById('client-emergency-relationship').textContent = emergencyRelationship;
+    document.getElementById('client-emergency-address').textContent = emergencyAddress;
+    document.getElementById('client-emergency-country').textContent = emergencyCountry;
+    document.getElementById('client-emergency-email').textContent = emergencyEmail;
+    document.getElementById('client-emergency-phone').textContent = emergencyPhone;
+    document.getElementById('client-travel-document').textContent = travelDocument;
+    document.getElementById('client-document-number').textContent = documentNumber;
+  });

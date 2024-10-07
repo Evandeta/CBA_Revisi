@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js" defer></script>
+    <link rel="icon" type="image/png" href="assets/CBA_Logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script type="text/javascript" src="https://app.midtrans.com/snap/snap.js"
+        data-client-key="Mid-client-FICy9HfBnsGVvQf6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://unpkg.com/sweetalert2@10"></script>
+    <script src="service.js" defer></script>
+    <title>Submission Form</title>
+</head>
+
+<body>
+    <header class="bg-bv-green sticky z-10 mb-0 px-2 top-0 w-full">
+        <nav class="navbar w-full flex justify-between items-center">
+            <div class="container flex items-center">
+                <a href="https://immigration.cbaservices.id/" class="logo">
+                    <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
+                </a>
+                <ul class="nav-links flex space-x-4 ml-auto">
+                    <li><a href="https://immigration.cbaservices.id" class="hover:text-white">Home</a></li>
+                    <li><a href="order_tracking.html" class="hover:text-white">Tracking Order</a></li>
+                    <li><a href="https://cbaservices.id/contact-us/" class="hover:text-white">Contact</a></li>
+                    <li><a href="https://ds.cbaservices.id/login.html" class="hover:text-white">Agency</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <form action="#" class="form">
+        <h1 class="text-center">SUBMISSION FORM</h1>
+        <div class="form-steps">
+            <button class="step-btn" onclick="moveToNextStep(1)">
+                <i class="fas fa-file-alt"></i> Step 1: Document Requirement
+            </button>
+            <button class="step-btn" onclick="moveToNextStep(2)">
+                <i class="fas fa-user"></i> Step 2: Client
+            </button>
+            <button class="step-btn" onclick="moveToNextStep(3)">
+                <i class="fas fa-check"></i> Step 3: Review Submission
+            </button>
+            <button class="step-btn" onclick="moveToNextStep(4)">
+                <i class="fas fa-check-double"></i> Step 4: Statement & Confirmation
+            </button>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+        <!-- Step 1: Document Requirement -->
+        <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200" id="submissionForm">
+            <div class="form-section" data-step="1" id="">
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group" aria-required="true">
+                                <label for="visit-purpose" class="block text-md font-semibold text-bv-green mb-2 false"
+                                    aria-required="true">Visit Purpose *</label>
+                                <select name="visitPurpose" id="category" required>
+                                    <option value="">Select Visit Purpose</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Investment">Investment</option>
+                                    <option value="Social">Social</option>
+                                    <option value="Tourism">Tourism</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="position" class="block text-md font-semibold text-bv-green mb-2 false"
+                                    aria-required="true">Select Visa *</label>
+                                <select name="position" id="productName" required>
+                                    <option value="">Select Visa</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="service" class="block text-md font-semibold text-bv-green mb-2 false" required>Select Service *</label>
+                                <select name="service" id="service" required>
+                                    <option value="">Select Service</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="total-person" required>Total Person *</label>
+                                <select name="totalPerson" id="totalPerson" required>
+                                    <option value="">Select Total Person</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <script>
+                                document.getElementById('category').addEventListener('change', function() {
+                                    var visitPurpose = this.value;
+                                    var visaSelect = document.getElementById('productName');
+                                    var serviceSelect = document.getElementById('service');
+
+                                    visaSelect.innerHTML = '<option value="">Select Visa</option>';
+                                    serviceSelect.innerHTML = '<option value="">Select Service</option>';
+
+                                    if (visitPurpose === 'Business') {
+                                        visaSelect.innerHTML += '<option value="D2-BUSINESS MULTIPLE ENTRY VISIT VISA" data-visit-purpose="Business">D2-BUSINESS MULTIPLE ENTRY VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="C2-BUSINESS SINGLE ENTRY VISIT VISA" data-visit-purpose="Business">C2-BUSINESS SINGLE ENTRY VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="B2-BUSNIESS VISA ON ARRIVAL" data-visit-purpose="Business">B2-BUSNIESS VISA ON ARRIVAL</option>';
+                                    } else if (visitPurpose === 'Internship') {
+                                        visaSelect.innerHTML += '<option value="C22A-ACADEMIC INTERNSHIP SINGLE ENTRY VISIT VISA" data-visit-purpose="Internship">C22A-ACADEMIC INTERNSHIP SINGLE ENTRY VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="C22B-COMPANY INTERNSHIP SINGLE ENTRY VISIT VISA" data-visit-purpose="Internship">C22B-COMPANY INTERNSHIP SINGLE ENTRY VISIT VISA</option>';
+                                    } else if (visitPurpose === 'Investment') {
+                                        visaSelect.innerHTML += '<option value="D12-PRE-INVESTMENT MULTIPLE ENTRY VISIT VISA" data-visit-purpose="Investment">D12-PRE-INVESTMENT MULTIPLE ENTRY VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="C12-PRE-INVESTMENT SINGLE ENTRY VISIT VISA" data-visit-purpose="Investment">C12-PRE-INVESTMENT SINGLE ENTRY VISIT VISA</option>';
+                                    } else if (visitPurpose === 'Social') {
+                                        visaSelect.innerHTML += '<option value="C6B-VOLUNTEER SINGLE ENTRY VISIT VISA" data-visit-purpose="Social">C6B-VOLUNTEER SINGLE ENTRY VISIT VISA</option>';
+                                    } else if (visitPurpose === 'Tourism') {
+                                        visaSelect.innerHTML += '<option value="D1-TOURIST MULTIPLE ENTRI VISIT VISA" data-visit-purpose="Tourism">D1-TOURIST MULTIPLE ENTRI VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="C1-TOURIST SINGLE ENTRY VISIT VISA" data-visit-purpose="Tourism">C1-TOURIST SINGLE ENTRY VISIT VISA</option>';
+                                        visaSelect.innerHTML += '<option value="B1-TOURIST VISA ON ARRIVAL" data-visit-purpose="Tourism">B1-TOURIST VISA ON ARRIVAL</option>';
+                                    }
+                                });
+
+                                document.getElementById('productName').addEventListener('change', function() {
+                                    var visa = this.value;
+                                    var serviceSelect = document.getElementById('service');
+
+                                    serviceSelect.innerHTML = '<option value="">Select Service</option>';
+
+                                    if (visa === 'D2-BUSINESS MULTIPLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RD21-REGULER BUSINESS|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)" data-position="D2-BUSINESS MULTIPLE ENTRY VISIT VISA">RD21-REGULER BUSINESS|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="ED21-PRIORITY BUUSINESS|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 444|5 Working day(s)" data-position="D2-BUSINESS MULTIPLE ENTRY VISIT VISA">ED21-PRIORITY BUUSINESS|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 444|5 Working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="RD22-REGULER BUSINESS|MULTIPLE ENTRY 2 YEAR|IDR 8,000,000|Est. USD 546|14 Working day(s)" data-position="D2-BUSINESS MULTIPLE ENTRY VISIT VISA">RD22-REGULER BUSINESS|MULTIPLE ENTRY 2 YEAR|IDR 8,000,000|Est. USD 546|14 Working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="ED22-PRIORITY BUSINESS|MULTIPLE ENTRY 2 YEAR|IDR 10,000,000|Est. USD 683|5 Working day(s)" data-position="D2-BUSINESS MULTIPLE ENTRY VISIT VISA">ED22-PRIORITY BUSINESS|MULTIPLE ENTRY 2 YEAR|IDR 10,000,000|Est. USD 683|5 Working day(s)</option>';
+                                    } else if (visa === 'C2-BUSINESS SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RC2-REGULER BUSINESS|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)" data-position="C2-BUSINESS SINGLE ENTRY VISIT VISA">RC2-REGULER BUSINESS|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="EC2-PRIORITY BUSINESS|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)" data-position="C2-BUSINESS SINGLE ENTRY VISIT VISA">EC2-PRIORITY BUSINESS|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)</option>';
+                                    } else if (visa === 'B2-BUSNIESS VISA ON ARRIVAL') {
+                                        serviceSelect.innerHTML += '<option value="B2-BUSINESS (Visa On Arrival)|IDR 700,000|Est. USD 48|1 working day(s)" data-position="B2-BUSNIESS VISA ON ARRIVAL">B2-BUSINESS (Visa On Arrival)|IDR 700,000|Est. USD 48|1 working day(s)</option>';
+                                    } else if (visa === 'C22A-ACADEMIC INTERNSHIP SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RC22A-REGULER ACADEMIC INTERNSHIP|SINGLE ENTRY VISA|IDR 8,500,000|Est. USD 580|14 working day(s)" data-visit-purpose="Internship" data-position="C22A-ACADEMIC INTERNSHIP SINGLE ENTRY VISIT VISA">RC22A-REGULER ACADEMIC INTERNSHIP|SINGLE ENTRY VISA|IDR 8,500,000|Est. USD 580|14 working day(s)</option>';
+                                    } else if (visa === 'C22B-COMPANY INTERNSHIP SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RC22B-REGULER COMPANY INTERNSHIP|SINGLE ENTRY VISA|IDR 8,500,000|Est. USD 580|14 working day(s)" data-visit-purpose="Internship" data-position="C22B-COMPANY INTERNSHIP SINGLE ENTRY VISIT VISA">RC22B-REGULER COMPANY INTERNSHIP|SINGLE ENTRY VISA|IDR 8,500,000|Est. USD 580|14 working day(s)</option>';
+                                    } else if (visa === 'D12-PRE-INVESTMENT MULTIPLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RD21-REGULER INVESTMENT|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)" data-position="D12-PRE-INVESTMENT MULTIPLE ENTRY VISIT VISA">RD21-REGULER INVESTMENT|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="RD22-EXPRESS INVESTMENT|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 420|7 Working day(s)" data-position="D12-PRE-INVESTMENT MULTIPLE ENTRY VISIT VISA">RD22-EXPRESS INVESTMENT|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 420|7 Working day(s)</option>';
+                                    } else if (visa === 'C12-PRE-INVESTMENT SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RC12-REGULER INVESTMENT|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)" data-position="C12-PRE-INVESTMENT SINGLE ENTRY VISIT VISA">RC12-REGULER INVESTMENT|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="EC12-PRIORITY INVESTMENT|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)" data-position="C12-PRE-INVESTMENT SINGLE ENTRY VISIT VISA">EC12-PRIORITY INVESTMENT|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)</option>';
+                                    } else if (visa === 'C6B-VOLUNTEER SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RV21-REGULER VOLUNTEER|SINGLE ENTRY|IDR 1,000,000|Est. USD 70|14 Working day(s)" data-position="C6B-VOLUNTEER SINGLE ENTRY VISIT VISA">RV21-REGULER VOLUNTEER|SINGLE ENTRY|IDR 1,000,000|Est. USD 70|14 Working day(s)</option>';
+                                    } else if (visa === 'D1-TOURIST MULTIPLE ENTRI VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RD1-REGULER TOURIST|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)" data-position="D1-TOURIST MULTIPLE ENTRI VISIT VISA">RD1-REGULER TOURIST|MULTIPLE ENTRY 1 YEAR|IDR 4,500,000|Est. USD 307|14 Working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="ED1-PRIORITY TOURIST|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 444|5 Working day(s)" data-position="D1-TOURIST MULTIPLE ENTRI VISIT VISA">ED1-PRIORITY TOURIST|MULTIPLE ENTRY 1 YEAR|IDR 6,500,000|Est. USD 444|5 Working day(s)</option>';
+                                    } else if (visa === 'C1-TOURIST SINGLE ENTRY VISIT VISA') {
+                                        serviceSelect.innerHTML += '<option value="RC1-REGULER TOURIST|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)" data-position="C1-TOURIST SINGLE ENTRY VISIT VISA">RC1-REGULER TOURIST|SINGLE ENTRY VISA|IDR 3,000,000|Est. USD 205|14 working day(s)</option>';
+                                        serviceSelect.innerHTML += '<option value="EC1-PRIORITY TOURIST|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)" data-position="C1-TOURIST SINGLE ENTRY VISIT VISA">EC1-PRIORITY TOURIST|SINGLE ENTRY VISA|IDR 4,900,000|Est. USD 335|5 working day(s)</option>';
+                                    } else if (visa === 'B1-TOURIST VISA ON ARRIVAL') {
+                                        serviceSelect.innerHTML += '<option value="B1-TOURIST (Visa On Arrival)|IDR 700,000|Est. USD 48|1 working day(s)" data-position="B1-TOURIST VISA ON ARRIVAL">B1-TOURIST (Visa On Arrival)|IDR 700,000|Est. USD 48|1 working day(s)</option>';
+                                    }
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="referral">Referral *</label>
+                                <select name="referral" id="referral" required>
+                                    <option value="">Pilih Referral</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btns-group" required>
+                    <a href="#" class="btn btn-next" id="btn-next-client" disabled>Next</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Client -->
+        <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+            <div class="form-section hidden" data-step="2" id="client-forms-container">
+                <h2>PERSONAL INFORMATION</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="fullname">Fullname</label>
+                                <input type="string" name="fullName" id="fullName" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="mothername">Mother Name</label>
+                                <input type="string" name="motherName" id="motherName" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="nationality">Nationality</label>
+                                <input type="string" name="nationality" id="nationality" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="phone">Whatsapp / Phone Number</label>
+                                <input type="string" name="phone" id="phoneNumber" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="address">Street Address</label>
+                                <input type="string" name="address" id="originalAddress" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="city">City</label>
+                                <input type="string" name="originalCity" id="originalCity" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="province">Province</label>
+                                <input type="string" name="originalProvince" id="originalProvince" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="country">Select Country:</label>
+                                <select name="countryId" id="countryId" required>
+                                    <option value="">Select Country</option>
+                                    <!-- Countries will be dynamically added here -->
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="zip">ZIP / Postal Code</label>
+                                <input type="string" name="zip" id="zipCode" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="indonesiaAccomodationName">Accomodation Name (Hotel, Villa, etc.)</label>
+                                <input type="string" name="accomodation-name" id="indonesiaAccomodationName" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="indonesiaAddress">Address</label>
+                                <input type="string" name="indonesiaAddress" id="indonesiaAddress" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <h2>EMERGENCY CONTACT INFORMATION</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergencyContactFullname">Fullname Emergency</label>
+                                <input type="string" name="emergency-fullname" id="emergencyContactFullName" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergencyContactRelation">Relationship</label>
+                                <select name="emergencyContactRelation" id="emergencyContactRelation">
+                                    <option value="">Select Relationship</option>
+                                    <option value="Parents">Parents</option>
+                                    <option value="Grandparents">Grandparents</option>
+                                    <option value="Brother/Sister">Brother/Sister</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergency-address">Address</label>
+                                <input type="string" name="emergencyContactAddress" id="emergencyContactAddress" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergency-country">Country</label>
+                                <select name="emergencyContactCountryId" id="emergencyContactCountryId">
+                                    <option value="">Select a country</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergency-">Email</label>
+                                <input type="string" name="emergencyContactEmail" id="emergencyContactEmail" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="emergency-phone">Mobile Phone Number</label>
+                                <input type="integer" name="emergencyContactMobilePhone" id="emergencyContactMobilePhone" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <h2>TRAVEL DOCUMENT INFORMATION</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="travel-document">Select Travel Document</label>
+                                <select name="travelDocument" id="travelDocument">
+                                    <option value="">Select Travel Document</option>
+                                    <option value="Passport">Passport</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <label for="document-number">Document Number</label>
+                                <input type="string" name="documentNumber" id="documentNumber" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-save" id="btn-save-data">Save Data</a>
+                    <a href="#" class="btn btn-prev" id="btn-prev-document">Previous</a>
+                    <a href="#" class="btn btn-next" id="btn-next-review">Next</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Review Submission -->
+        <div id="reviewForm" class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+            <div class="form-section hidden" data-step="3">
+                <h2 class="font-bold text-2xl mb-4">Review Submission</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Document Requirement</h3>
+                        <table class="table-auto w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Field</th>
+                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Visit Purpose</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="document-visit-purpose"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Visa</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="document-productName"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Service</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="document-service"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Total Person</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="document-total-person"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Referral</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="document-referral"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Client Information</h3>
+                        <table class="table-auto w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Field</th>
+                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Fullname</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-fullName"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Mother Name</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-motherName"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Nationality</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-nationality"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Email</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-email"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Phone</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-phoneNumber"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Address</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-originalAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">City</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-originalCity"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Province</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-originalProvince"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">ZIP Code</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-zipCode"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Country</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-countryId"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Accomodation Name</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-indonesiaAccomodationName"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Accomodation Address</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-accomodation-indonesiaAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Fullname</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergency-emergencyContactFullname"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Relationship</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactRelation"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Address</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactAddress"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Country</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactCountryId"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Email</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Emergency Phone</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactMobilePhone"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Travel Document</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-travelDocument"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 py-2 px-4">Document Number</td>
+                                    <td class="border border-gray-300 py-2 px-4" id="client-documentNumber"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev" id="btn-prev-client">Previous</a>
+                    <a href="#" class="btn btn-next" id="btn-next-statement" disable>Next</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: Statement & Confirmation -->
+        <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+            <div class="form-section hidden" data-step="4">
+                <h3>Payment Method</h3>
+                <p>We accept payment via Visa, Mastercard, and PayPal.</p>
+                <img src="assets/visa.png" alt="Visa" width="100">
+                <img src="assets/mastercard.png" alt="Mastercard" width="100">
+                <img src="assets/paypal.png" alt="PayPal" width="100">
+
+                <h3>Agreement</h3>
+                <p>By submitting this form, I hereby declare that all information provided is true and accurate. I understand
+                    that any false or misleading information may result in the rejection of my application.</p>
+                <label>
+                    <input type="checkbox" id="agreement" required> I agree to the terms and conditions
+                </label>
+
+                <h3>Statement</h3>
+                <p>I declare that all information provided in this form is true and accurate. I understand that any false or misleading information may result in the rejection of my application.</p>
+                <label>
+                    <input type="checkbox" id="statement" required> I agree with this statement
+                </label>
+
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev" id="btn-prev">Previous</a>
+                    <a href="#" class="btn btn-next" id="submit-btn" disabled>Submit</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        const progress = document.getElementById('progress');
+        const steps = document.querySelectorAll('.form-section');
+        const nextButtons = document.querySelectorAll('.btn-next');
+        const prevButtons = document.querySelectorAll('.btn-prev');
+
+        let currentStep = 1;
+
+        function updateProgressBar() {
+            const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
+            progress.style.width = progressPercentage + '%';
+        }
+
+        function moveToNextStep(step) {
+            steps.forEach((section, index) => {
+                if (index + 1 === step) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+            currentStep = step;
+            updateProgressBar();
+        }
+
+        function validateStep(step) {
+            const currentSection = steps[step - 1];
+            const inputs = currentSection.querySelectorAll('input, select');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                } else {
+                    input.classList.remove('border-red-500');
+                }
+            });
+
+            if (!isValid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Semua field harus diisi!',
+                });
+            }
+
+            return isValid;
+        }
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (validateStep(currentStep)) {
+                    if (currentStep < steps.length) {
+                        moveToNextStep(currentStep + 1);
+                    }
+                }
+            });
+        });
+
+        prevButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentStep > 1) {
+                    moveToNextStep(currentStep - 1);
+                }
+            });
+        });
+
+        updateProgressBar();
+    </script>
+</body>
+
+</html>

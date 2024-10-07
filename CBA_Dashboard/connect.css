@@ -1,0 +1,260 @@
+/* Global Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    color: #212121;
+    margin-bottom: 10px;
+  }
+  
+  /* Dashboard Styles */
+  
+  .dashboard {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .dashboard ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dashboard li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dashboard a {
+    text-decoration: none;
+    color: #337ab7;
+    transition: color 0.2s ease;
+  }
+  
+  .dashboard a:hover {
+    color: #23527c;
+  }
+  
+  /* Submission Styles */
+  
+  .submission {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .submission-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .submission-form label {
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .submission-form input, .submission-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .submission-form button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .submission-form button[type="submit"]:hover {
+    background-color: #23527c;
+  }
+  
+  /* Appointment Styles */
+  
+  .appointment {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .appointment-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .appointment-form label {
+    width: 100%;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .appointment-form input, .appointment-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .appointment-form button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .appointment-form button[type="submit"]:hover {
+    background-color: #23527c;
+  }
+  
+  /* Variatif Field Styles */
+  
+  .variatif-field {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .variatif-field label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .variatif-field input, .variatif-field textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .variatif-field button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .variatif-field button[type="submit"]:hover {
+    background-color: #23527c;
+  }
+  
+  /* Gradient Field Styles */
+  
+  .gradient-field {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to bottom, #fff, #f9f9f9);
+  }
+  
+  .gradient-field label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .gradient-field input, .gradient-field textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gradient-field button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .gradient-field button[type="submit"]:hover {
+    background-color: #23527c;
+  }
+  
+  /* Shadow Field Styles */
+  
+  .shadow-field {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .shadow-field label {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .shadow-field input, .shadow-field textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0 , 0.1);
+  }
+  
+  .shadow-field button[type="submit"] {
+    background-color: #337ab7;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .shadow-field button[type="submit"]:hover {
+    background-color: #23527c;
+  }

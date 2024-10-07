@@ -1,0 +1,82 @@
+<!-- dashboard.html -->
+ <link rel="stylesheet" href="connect.css">
+<div class="dashboard">
+    <h1>Dashboard</h1>
+    <ul>
+      <li><a href="C:\xampp\htdocs\CBA\CBA_Revisi\Submission\submission.html">Submission</a></li>
+      <li><a href="C:\xampp\htdocs\CBA\CBA_Revisi\appointment\appointment.html">Appointment</a></li>
+    </ul>
+    <div id="submission-list"></div>
+    <div id="appointment-list"></div>
+  </div>
+  
+  <!-- submission.html -->
+  <div class="submission">
+    <h1>Submission</h1>
+    <form id="submission-form">
+      <!-- submission.html -->
+<div class="submission">
+    <form id="submission-form">
+      <label for="name">Nama:</label>
+      <input type="text" id="name" name="name" required>
+  
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+  
+      <label for="phone">Nomor Telepon:</label>
+      <input type="tel" id="phone" name="phone" required>
+  
+      <label for="message">Pesan:</label>
+      <textarea id="message" name="message" required></textarea>
+  
+      <label for="file">Lampiran:</label>
+      <input type="file" id="file" name="file">
+  
+      <button type="submit">Kirim</button>
+    </form>
+    <div id="submission-list"></div>
+  </div>
+    </form>
+    <div id="submission-list"></div>
+  </div>
+  
+  <!-- appointment.html -->
+  <div class="appointment">
+    <h1>Appointment</h1>
+    <form id="appointment-form">
+        <!-- appointment.html -->
+<div class="appointment">
+    <form id="appointment-form">
+      <label for="name">Nama:</label>
+      <input type="text" id="name" name="name" required>
+  
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+  
+      <label for="phone">Nomor Telepon:</label>
+      <input type="tel" id="phone" name="phone" required>
+  
+      <label for="date">Tanggal:</label>
+      <input type="date" id="date" name="date" required>
+  
+      <label for="time">Waktu:</label>
+      <input type="time" id="time" name="time" required>
+  
+      <label for="service">Layanan:</label>
+      <select id="service" name="service" required>
+        <option value="">Pilih Layanan</option>
+        <option value="konsultasi">Konsultasi</option>
+        <option value="perawatan">Perawatan</option>
+        <option value="pengobatan">Pengobatan</option>
+      </select>
+  
+      <label for="notes">Catatan:</label>
+      <textarea id="notes" name="notes"></textarea>
+  
+      <button type="submit">Buat Janji</button>
+    </form>
+    <div id="appointment-list"></div>
+  </div>
+    </form>
+    <div id="appointment-list"></div>
+  </div>

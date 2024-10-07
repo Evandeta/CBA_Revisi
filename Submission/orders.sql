@@ -1,0 +1,15 @@
+CREATE TABLE orders (
+  id INT PRIMARY KEY,
+  client_name VARCHAR(255) NOT NULL,
+  order_status VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE order_processes (
+  id INT PRIMARY KEY,
+  order_id INT NOT NULL,
+  process_name VARCHAR(255) NOT NULL,
+  process_status VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id)
+);

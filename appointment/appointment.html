@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBA Appointment Form</title>
+  <link rel="icon" type="image/png" href="assets/CBA_Logo.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="https://legal.cbaservices.id/">
+      <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
+    </a>
+    <ul>
+      <li><a href="https://legal.cbaservices.id/">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="https://cbaservices.id/">Services</a></li>
+      <li><a href="https://cbaservices.id/contact-us/">Contact</a></li>
+    </ul> 
+  </nav>
+  
+  <div class="wrapper">
+    <header>Appointment Form</header>
+    <form id="appointment-form" method="post">
+      <div class="dbl-field">
+        <div class="field">
+          <input type="text" name="name" placeholder="Enter your name" required>
+          <i class='fas fa-user'></i>
+        </div>
+        <div class="field">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <i class='fas fa-envelope'></i>
+        </div>
+      </div>
+      <div class="dbl-field">
+        <div class="field">
+          <input type="tel" name="phoneNumber" placeholder="Enter your phone" required>
+          <i class='fas fa-phone-alt'></i>
+        </div>
+        <div class="field">
+          <input type="date" name="date" placeholder="Choose date and time" required>
+          <i class='fas fa-clock'></i>
+        </div>
+      </div>
+      <div class="dbl-field">
+        <i class='fas fa-list-alt'></i>
+        <div class="field">
+          <select name="service" id="service" required>
+            <option value="">Select Services</option>
+            <option value="Company Information">Company Information</option>
+            <option value="Legal Document">Legal Document</option>
+            <option value="License">License</option>
+            <option value="Other Services">Other Services</option>
+          </select>
+        </div>
+      </div>
+      <div class="consultation-type" id="consultationType">
+        <input type="radio" id="office-consultation" name="consultationType" value="Office Consultation" required>
+        <label for="office-consultation">Office Consultation</label>
+        <input type="radio" id="email-consultation" name="consultationType" value="Email Consultation" required>
+        <label for="email-consultation">Email Consultation</label>
+      </div>
+      <div class="message" id="pesan">
+        <textarea placeholder="Write your message" name="pesan"></textarea>
+        <i class="material-icons">message</i>
+      </div>
+      <div class="button-area">
+        <button type="submit">SUBMIT</button>
+        <span></span>
+      </div>
+    </form>
+  </div>
+
+  <script>
+      const form = document.getElementById('appointment-form');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        // Create an object to hold the appointment data
+        const appointmentData = {
+          name: form.name.value,  // Get the value of the name field
+          email: form.email.value,  // Get the value of the email field
+          phoneNumber: form.phoneNumber.value,  // Get the value of the phone number field
+          date: form.date.value,  // Get the value of the date field
+          service: form.service.value,  // Get the selected service
+          consultationType: document.querySelector('input[name="consultationType"]:checked').value,  // Get the selected consultation type
+          pesan: document.querySelector('textarea[name="pesan"]').value,
+        };
+
+        // Convert the appointment data to JSON
+        const requestBody = JSON.stringify(appointmentData);
+
+        // Updated API URL
+        const apiURL = 'https://api.cbaservices.id/appointments';  // Replace with your API endpoint
+
+        // Fetch request to submit the appointment
+        fetch(apiURL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',  // Set the content type to JSON
+          },
+          body: requestBody  // Send the JSON data as the request body
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();  // Convert the response to JSON
+        })
+        .then(data => {
+          console.log('Success:', data);
+          alert('Appointment has been successfully submitted!');  // Alert success message
+          form.reset();  // Reset the form after submission
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+          alert('Error submitting the appointment. Please try again later.');
+        });
+      });
+
+  </script>
+</body>
+</html>

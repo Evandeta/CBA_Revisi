@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Tracking Order</title>
+</head>
+<body>
+  <header class="bg-bv-green sticky z-10 mb-0 px-2 top-0">
+    <nav class="flex md:flex-1 items-center justify-between p-2 lg:p-2">
+      <a href="http://immigration.cbaservices.id" class="logo">
+        <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
+      </a>
+      <ul class="nav-links">
+        <li><a href="https://cbaservices.id/">Home</a></li>
+        <li><a href="order_tracking.html" class="active">Tracking Order</a></li>
+        <li><a href="https://cbaservices.id/contact-us/">Contact</a></li>
+        <li><a href="C:\xampp\htdocs\CBA\CBA_Dashboard\login.html">Agency</a></li>
+      </ul>
+    </nav>
+  </header>
+  <form action="#" class="form">
+    <h1 class="text-center">TRACKING ORDER</h1>
+        <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+        <h2>Search Order</h2>
+        <div class="input-group">
+            <label for="client-name" class="block text-gray-700 text-lg font-bold mb-2">Client Name</label>
+            <input type="text" name="client-name" id="client-name" class="w-full p-4 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="input-group">
+            <label for="order-id" class="block text-gray-700 text-lg font-bold mb-2">Order ID</label>
+            <input type="text" name="order-id" id="order-id" class="w-full p-4 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500" />
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Search</button>
+        </div>
+    <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+      <h2>Order Results</h2>
+      <table class="table-bordered" cellpadding="5" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Client Name</th>
+            <th>Order Status</th>
+          </tr>
+        </thead>
+        <tbody id="order-results">
+          <!-- Results will be displayed here -->
+          <tr>
+            <td>ORD12345</td>
+            <td>John Doe</td>
+            <td>In Progress</td>
+          </tr>
+          <tr>
+            <td>ORD67890</td>
+            <td>Jane Smith</td>
+            <td>Completed</td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+  </form>
+</body>
+</html>
