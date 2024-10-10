@@ -84,6 +84,26 @@ async function fetchCustomerData(customerId) {
     }
 }
 
+let productData = []; // Global variable to store the fetched data
+
+// Function to fetch product data once from the API
+async function fetchProductData() {
+    try {
+        const response = await $.ajax({
+            url: "https://api.cbaservices.id/product", // Updated API URL
+            method: "GET",
+            dataType: "json",
+        });
+
+        productData = response; // Store the fetched data in a global variable
+        return productData;
+    } catch (error) {
+        console.error("Error fetching product data:", error);
+        throw error; // Throw the error to be handled outside
+    }
+}
+
+
 // Function to populate the country dropdowns
 function populateCountryOptions(countries) {
     const countrySelect = $("#countryId");
@@ -148,6 +168,108 @@ async function initializeAgents() {
     }
 }
 
+let currentPerson = 1; // Track the current person number being added
+let totalPerson = 1; // Track the total number of people
+let allPersonsData = []; // Array to hold data for all persons
+
+// Function to handle the visibility of the Save Data and Next buttons
+function handleTotalPersonVisibility() {
+    totalPerson = parseInt($("#total-person").val()) || 1;
+
+    console.log("Total person:", totalPerson);
+
+    // Show or hide buttons based on the number of people
+    if (totalPerson === 1) {
+        $("#btn-save-data").addClass("hidden"); // Hide the save data button for one person
+        $("#btn-next-review").removeClass("hidden"); // Show the next button for single person
+    } else {
+        $("#btn-save-data").removeClass("hidden").text(`Add Person ${currentPerson}`); // Show and rename button
+        $("#btn-next-review").addClass("hidden"); // Hide the next button until last person
+    }
+}
+
+// Event listener to trigger the logic when the total person dropdown changes
+$("#total-person").on("change", function () {
+    currentPerson = 1; // Reset to the first person when total changes
+    allPersonsData = []; // Reset data collection when total changes
+    handleTotalPersonVisibility();
+});
+
+// Handle the save button logic for multiple people
+$("#btn-save-data").on("click", async function (e) {
+    e.preventDefault();
+    await handleFormSubmission();
+
+    // Increment the person counter
+    if (currentPerson < totalPerson) {
+        currentPerson++;
+        $("#btn-save-data").text(`Add Person ${currentPerson}`); // Update button text to next person
+        resetForm(); // Reset the form fields for the next person
+    }
+
+    // If it's the last person, hide the "Add Person" button and show the "Next" button
+    if (currentPerson === totalPerson) {
+        $("#btn-save-data").addClass("hidden");
+        $("#btn-next-review").removeClass("hidden");
+    }
+});
+
+function validateCustomerData(customerData) {
+    const missingFields = [];
+    const errors = [];
+
+    // Check for missing fields
+    Object.entries(customerData).forEach(([key, value]) => {
+        if (!value) {
+            missingFields.push(key);
+        }
+    });
+
+    // Specific validation for email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (customerData.email && !emailRegex.test(customerData.email)) {
+        errors.push('Invalid email format');
+    }
+
+    // Validate emergency contact email
+    if (customerData.emergencyContactEmail && !emailRegex.test(customerData.emergencyContactEmail)) {
+        errors.push('Invalid email format for Emergency Contact Email');
+    }
+
+
+    // Specific validation for phone number (only digits are allowed)
+    const phoneRegex = /^\d+$/;
+
+
+    if (customerData.phoneNumber && !phoneRegex.test(customerData.phoneNumber)) {
+        errors.push('Phone number must contain only digits');
+    }
+
+    if (customerData.emergencyContactMobilePhone && !phoneRegex.test(customerData.emergencyContactMobilePhone)) {
+        errors.push('Emergency contact phone number must contain only digits');
+    }
+
+    // Display error message if validation fails
+    if (missingFields.length > 0 || errors.length > 0) {
+        const alertText = `
+            ${missingFields.length ? `Missing fields: ${missingFields.join(', ')}` : ''}
+            ${missingFields.length && errors.length ? '\n' : ''}
+            ${errors.length ? `Errors: ${errors.join(', ')}` : ''}
+        `.trim();
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Validation Error',
+            text: alertText,
+        });
+
+        return false; // Validation failed
+    }
+
+    return true; // Validation passed
+}
+
 // Function to handle form submission
 async function handleFormSubmission() {
     try {
@@ -176,34 +298,44 @@ async function handleFormSubmission() {
             agentId: $("#referral").val(), // Referral agent ID
         };
 
+        // Validate the customer data using the validateCustomerData function
+        const isValid = validateCustomerData(customerData);
+        if (!isValid) {
+            // Stop the submission process if validation fails
+            return;
+        }
+
         // POST customer data and get customerId
         const customerResponse = await postCustomerData(customerData);
-        const customerId = customerResponse.id;
 
-        // Collect transaction data from form
-        const transactionData = {
-            quantity: 1,
-            subtotal: 100000,
-            productId: 3,
-            customerId: customerId, // Link the transaction to the customer
-        };
+        allPersonsData.push(customerResponse);
 
-        // POST transaction data
-        await postTransactionData(transactionData);
+        // Display a success message with Swal.fire after data is saved
+        await Swal.fire({
+            title: 'Success!',
+            text: 'Your data has been saved successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
 
-        // Fetch the customer data for review
-        const fetchedCustomerData = await fetchCustomerData(customerId);
-
-        // Populate the review section with fetched customer data
-        populateReviewSubmission(fetchedCustomerData);
+        populateReviewSubmission();
     } catch (error) {
-        alert(`Failed to submit form. Please try again. Error: ${error.message}`);
+        await Swal.fire({
+            title: 'Error!',
+            text: `Failed to save data for person ${currentPerson}. Please try again. Error: ${error.message}`,
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
         console.error(error);
     }
 }
 
+function resetForm() {
+    $("#fullName, #motherName, #nationality, #email, #phoneNumber, #originalAddress, #originalCity, #countryId, #originalProvince, #zipCode, #indonesiaAccomodationName, #indonesiaAddress, #emergencyContactFullName, #emergencyContactRelation, #emergencyContactAddress, #emergencyContactCountryId, #emergencyContactEmail, #emergencyContactMobilePhone, #travelDocument, #documentNumber").val('');
+}
+
 // Function to populate the review submission step
-function populateReviewSubmission(data) {
+function populateReviewSubmission() {
     const visitPurpose = $("#category").val();
     const position = $("#productName").val();
     const service = $("#service").val();
@@ -211,43 +343,317 @@ function populateReviewSubmission(data) {
     const referral = $("#referral").val();
 
     // Populate document requirement information
-    $("#document-category").text(visitPurpose);
+    $("#document-visit-purpose").text(visitPurpose);
     $("#document-productName").text(position);
     $("#document-service").text(service);
     $("#document-total-person").text(totalPerson);
     $("#document-referral").text(referral);
 
-    // Populate client information
-    $("#client-fullName").text(data.fullName);
-    $("#client-motherName").text(data.motherName);
-    $("#client-nationality").text(data.nationality);
-    $("#client-email").text(data.email);
-    $("#client-phoneNumber").text(data.phoneNumber);
-    $("#client-originalAddress").text(data.originalAddress);
-    $("#client-originalProvince").text(data.originalProvince); // Use originalProvince for state
-    $("#client-originalCity").text(data.originalCity); // Use originalProvince for state
-    $("#client-zipCode").text(data.zipCode);
-    $("#client-countryId").text(data.countryId); // Display country ID, change to country name if necessary
-    $("#client-indonesiaAccomodationName").text(data.indonesiaAccomodationName);
-    $("#client-accomodation-indonesiaAddress").text(data.indonesiaAddress); // Display Accomodation Address
-    $("#client-emergency-emergencyContactFullName").text(data.emergencyContactFullName);
-    $("#client-emergencyContactRelation").text(data.emergencyContactRelation);
-    $("#client-emergencyContactAddress").text(data.emergencyContactAddress);
-    $("#client-emergencyContactCountryId").text(data.emergencyContactCountryId); // Display emergency country ID
-    $("#client-emergencyContactEmail").text(data.emergencyContactEmail);
-    $("#client-emergencyContactMobilePhone").text(data.emergencyContactMobilePhone);
-    $("#client-travelDocument").text(data.travelDocument);
-    $("#client-documentNumber").text(data.documentNumber);
+    console.log("All persons data:", allPersonsData);
+
+    // Clear the existing client information content to refresh with the updated details
+    const clientInfoContainer = $("#client-info");
+    clientInfoContainer.empty(); // Clear any existing data
+
+    // Loop through each person's data and append the information to the review section
+    allPersonsData.forEach((data, index) => {
+        console.log(`Appending data for person ${index + 1}`);
+
+        // Create dynamic HTML content for each person's information
+        const personInfoHTML = `
+              <h3 class="font-bold text-lg mb-2">Client Information ${index + 1}</h3>
+              <table class="table-auto w-full border-collapse border border-gray-300">
+                  <thead>
+                      <tr class="bg-gray-200">
+                          <th class="w-1/2 border border-gray-300 py-2 px-4">Field</th>
+                          <th class="w-1/2 border border-gray-300 py-2 px-4">Value</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr><td class="border border-gray-300 py-2 px-4">Fullname</td><td class="border border-gray-300 py-2 px-4">${data.fullName}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Mother Name</td><td class="border border-gray-300 py-2 px-4">${data.motherName}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Nationality</td><td class="border border-gray-300 py-2 px-4">${data.nationality}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Email</td><td class="border border-gray-300 py-2 px-4">${data.email}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Phone</td><td class="border border-gray-300 py-2 px-4">${data.phoneNumber}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Address</td><td class="border border-gray-300 py-2 px-4">${data.originalAddress}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">City</td><td class="border border-gray-300 py-2 px-4">${data.originalCity}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Province</td><td class="border border-gray-300 py-2 px-4">${data.originalProvince}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">ZIP Code</td><td class="border border-gray-300 py-2 px-4">${data.zipCode}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Country</td><td class="border border-gray-300 py-2 px-4">${data.countryId}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Accommodation Name</td><td class="border border-gray-300 py-2 px-4">${data.indonesiaAccomodationName}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Accommodation Address</td><td class="border border-gray-300 py-2 px-4">${data.indonesiaAddress}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Fullname</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactFullName}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Relationship</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactRelation}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Address</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactAddress}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Country</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactCountryId}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Email</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactEmail}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Emergency Phone</td><td class="border border-gray-300 py-2 px-4">${data.emergencyContactMobilePhone}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Travel Document</td><td class="border border-gray-300 py-2 px-4">${data.travelDocument}</td></tr>
+                      <tr><td class="border border-gray-300 py-2 px-4">Document Number</td><td class="border border-gray-300 py-2 px-4">${data.documentNumber}</td></tr>
+                  </tbody>
+              </table>
+          `;
+
+        // Append the dynamically created person info to the client info container
+        clientInfoContainer.append(personInfoHTML);
+
+    });
+}
+
+// Function to populate the visit purpose dropdown
+function populateVisitPurposeOptions() {
+    const visitPurposeSelect = $("#category");
+    const excludedCategories = ['Company Formation', 'Legal Document', 'Document Licensing'];
+
+    // Clear existing options
+    visitPurposeSelect.empty();
+
+    // Add default option
+    visitPurposeSelect.append('<option value="">Select Visit Purpose</option>');
+
+    // Extract unique visit purposes and populate the dropdown
+    const visitPurposes = [...new Set(productData
+        .map(product => product.category.category)
+        .filter(category => !excludedCategories.includes(category))
+    )];
+
+    visitPurposes.forEach(function (purpose) {
+        const option = $("<option></option>")
+            .val(purpose)
+            .text(purpose);
+        visitPurposeSelect.append(option);
+    });
+}
+
+function populateVisaOptions(selectedCategory) {
+    const visaSelect = $("#productName");
+
+    // Clear existing options
+    visaSelect.empty();
+
+    // Add default option
+    visaSelect.append('<option value="">Select Visa</option>');
+
+    // Filter and add visas based on the selected category
+    const filteredVisas = productData.filter(product => product.category.category === selectedCategory);
+
+    filteredVisas.forEach(function (visa) {
+        const option = $("<option></option>")
+            .val(visa.productName)
+            .text(visa.productName);
+        visaSelect.append(option);
+    });
+}
+
+// Event listener for category change to populate visas dynamically
+$("#category").on("change", function () {
+    const selectedCategory = $(this).val();
+    populateVisaOptions(selectedCategory); // Populate the visa dropdown based on the selected category
+});
+
+// Function to populate the service dropdown based on the selected visa
+function populateServiceOptions(selectedVisa) {
+    const serviceSelect = $("#service");
+
+    // Clear existing options
+    serviceSelect.empty();
+
+    // Add default option
+    serviceSelect.append('<option value="">Select Service</option>');
+
+    // Filter and add services based on the selected visa
+    const filteredServices = productData.filter(product => product.productName === selectedVisa);
+
+    filteredServices.forEach(function (service) {
+        const option = $("<option></option>")
+            .val(service.service)
+            .text(service.service);
+        serviceSelect.append(option);
+    });
+}
+
+// Event listener for visa change to populate services dynamically
+$("#productName").on("change", function () {
+    const selectedVisa = $(this).val();
+    populateServiceOptions(selectedVisa); // Populate the service dropdown based on the selected visa
+});
+
+
+async function initializeProduct() {
+    try {
+        await fetchProductData(); // Fetch product data using the service function
+        populateVisitPurposeOptions(); // Populate the visit purpose dropdown
+        populateVisaOptions(); // Populate the visa
+        populateServiceOptions(); // Populate the service
+    } catch (error) {
+        alert("Failed to load product. Please try again.");
+    }
 }
 
 // Attach form submission handler to the 'Next' button in the statement section
-document.getElementById("btn-next-review").addEventListener("click", function (e) {
+document.getElementById("btn-next-review").addEventListener("click", async function (e) {
     e.preventDefault();
     handleFormSubmission();
+
+    // Retrieve quantity from total-person dropdown
+    const quantity = parseInt($("#total-person").val(), 10) || 1;
+
+    // Retrieve product details based on the selected visa
+    const selectedVisa = $("#productName").val();
+    const selectedProduct = productData.find(product => product.productName === selectedVisa);
+
+    // Ensure product details are available before proceeding
+    if (!selectedProduct) {
+        alert("Please select a valid visa.");
+        return;
+    }
+
+    // Collect transaction data from the form
+    const transactionData = {
+        quantity: quantity, // Quantity from the total-person dropdown
+        subtotal: selectedProduct.price * quantity, // Calculate subtotal based on product price and quantity
+        productId: selectedProduct.id, // Retrieve productId from the selected product
+    };
+    console.log("Transaction data:", transactionData);
+
+    // POST transaction data
+    await postTransactionData(transactionData);
 });
+
+// configuration for step
+async function handleStepNavigation(currentStep, steps) {
+    const nextButtons = $('.btn-next');
+    const prevButtons = $('.btn-prev');
+
+    nextButtons.on('click', async (e) => {
+        e.preventDefault();
+
+        // Perform specific validation for step 2 if required
+        if (currentStep === 2) {
+            const customerData = collectCustomerData(); // Collect customer data for validation
+            const isValid = validateCustomerData(customerData);
+
+            if (!isValid) {
+                console.log("Validation failed on step 2");
+                return; // Stop navigation if validation fails
+            }
+        }
+
+        // General step validation
+        const isStepValid = validateStep(currentStep, steps);
+        if (isStepValid) {
+            if (currentStep < steps.length) {
+                currentStep++; // Increment the step only if validation passes
+                moveToNextStep(currentStep, steps);
+                console.log("Moved to next step:", currentStep);
+            }
+        } else {
+            focusOnInvalidField(currentStep, steps); // Focus on the first invalid input
+        }
+    });
+
+    prevButtons.on('click', (e) => {
+        e.preventDefault();
+        if (currentStep > 1) {
+            moveToNextStep(currentStep - 1, steps);
+        }
+    });
+}
+
+// Function to collect customer data from the form fields
+function collectCustomerData() {
+    return {
+        fullName: $("#fullName").val(),
+        motherName: $("#motherName").val(),
+        nationality: $("#nationality").val(),
+        email: $("#email").val(),
+        phoneNumber: $("#phoneNumber").val(),
+        originalAddress: $("#originalAddress").val(),
+        originalCity: $("#originalCity").val(),
+        countryId: $("#countryId").val(),
+        originalProvince: $("#originalProvince").val(),
+        zipCode: $("#zipCode").val(),
+        indonesiaAccomodationName: $("#indonesiaAccomodationName").val(),
+        indonesiaAddress: $("#indonesiaAddress").val(),
+        emergencyContactFullName: $("#emergencyContactFullName").val(),
+        emergencyContactRelation: $("#emergencyContactRelation").val(),
+        emergencyContactAddress: $("#emergencyContactAddress").val(),
+        emergencyContactCountryId: $("#emergencyContactCountryId").val(),
+        emergencyContactEmail: $("#emergencyContactEmail").val(),
+        emergencyContactMobilePhone: $("#emergencyContactMobilePhone").val(),
+        travelDocument: $("#travelDocument").val(),
+        documentNumber: $("#documentNumber").val(),
+        agentId: $("#referral").val()
+    };
+}
+
+// Function to focus on the first invalid input field
+function focusOnInvalidField(step, steps) {
+    const currentSection = steps[step - 1];
+    const firstInvalidInput = currentSection.querySelector('input, select.border-red-500');
+    if (firstInvalidInput) {
+        firstInvalidInput.focus();
+    }
+}
+
+// Function to move to the next or previous step
+function moveToNextStep(step, steps) {
+    steps.forEach((section, index) => {
+        console.log("Checking section:", index + 1);
+        console.log("Current step:", step);
+        if (index + 1 === step) {
+            console.log("Displaying section:", index + 1);
+            section.classList.remove('hidden');
+        } else {
+            section.classList.add('hidden');
+        }
+    });
+    updateProgressBar(step, steps);
+}
+
+// Function to validate the step fields
+function validateStep(step, steps) {
+    const currentSection = steps[step - 1];
+    const inputs = currentSection.querySelectorAll('input, select');
+    let isValid = true;
+
+    inputs.forEach(input => {
+        if (!input.value) {
+            input.classList.add('border-red-500');
+            isValid = false;
+        } else {
+            input.classList.remove('border-red-500');
+        }
+    });
+
+    if (!isValid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'All fields are required!',
+        });
+    }
+
+    return isValid;
+}
+
+// Function to update the progress bar based on the current step
+function updateProgressBar(step, steps) {
+    const progress = document.getElementById('progress');
+    const progressPercentage = ((step - 1) / (steps.length - 1)) * 100;
+    progress.style.width = progressPercentage + '%';
+}
+
 
 // Call initializeCountries and initializeAgents once the DOM content is loaded
 document.addEventListener('DOMContentLoaded', async () => {
     await initializeCountries();
     await initializeAgents();
+    await initializeProduct();
+
+    const steps = document.querySelectorAll('.form-section');
+    let currentStep = 1;
+
+    // Call the step navigation function from service.js
+    await handleStepNavigation(currentStep, steps);
 });
