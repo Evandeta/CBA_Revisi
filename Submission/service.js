@@ -337,14 +337,23 @@ function resetForm() {
 // Function to populate the review submission step
 function populateReviewSubmission() {
     const visitPurpose = $("#category").val();
-    const position = $("#productName").val();
+    const selectedProductId = $("#productName").val();  // This is the productId now
     const service = $("#service").val();
     const totalPerson = $("#total-person").val();
     const referral = $("#referral").val();
 
-    // Populate document requirement information
+    // Find the productName from the productData using the productId
+    const selectedProduct = productData.find(product => product.id === parseInt(selectedProductId));
+
+    // Ensure the selected product exists before proceeding
+    if (!selectedProduct) {
+        console.error("Selected product not found.");
+        return;
+    }
+
+    // Populate document requirement information with productName
     $("#document-visit-purpose").text(visitPurpose);
-    $("#document-productName").text(position);
+    $("#document-productName").text(selectedProduct.productName);  // Use productName here
     $("#document-service").text(service);
     $("#document-total-person").text(totalPerson);
     $("#document-referral").text(referral);
@@ -401,7 +410,7 @@ function populateReviewSubmission() {
 }
 
 // Function to populate the visit purpose dropdown
-function populateVisitPurposeOptions() {
+function populateVisitPurposeOptions(selectedVisitPurpose) {
     const visitPurposeSelect = $("#category");
     const excludedCategories = ['Company Formation', 'Legal Document', 'Document Licensing'];
 
@@ -423,9 +432,15 @@ function populateVisitPurposeOptions() {
             .text(purpose);
         visitPurposeSelect.append(option);
     });
+
+    // If the URL has a pre-selected visit purpose, set it
+    if (selectedVisitPurpose) {
+        visitPurposeSelect.val(selectedVisitPurpose);
+    }
 }
 
-function populateVisaOptions(selectedCategory) {
+// Function to populate the visa dropdown (productName dropdown)
+function populateVisaOptions(selectedCategory, selectedVisa) {
     const visaSelect = $("#productName");
 
     // Clear existing options
@@ -437,22 +452,24 @@ function populateVisaOptions(selectedCategory) {
     // Filter and add visas based on the selected category
     const filteredVisas = productData.filter(product => product.category.category === selectedCategory);
 
+    // Add each visa to the dropdown, including productId in the value attribute
     filteredVisas.forEach(function (visa) {
         const option = $("<option></option>")
-            .val(visa.productName)
-            .text(visa.productName);
+            .val(visa.id)  // Use product id as the value
+            .text(visa.productName);  // Show productName
         visaSelect.append(option);
     });
+
+    // If the URL has a pre-selected visa, set it
+    if (selectedVisa) {
+        visaSelect.find("option").filter(function () {
+            return $(this).text() === selectedVisa;
+        }).attr('selected', 'selected');
+    }
 }
 
-// Event listener for category change to populate visas dynamically
-$("#category").on("change", function () {
-    const selectedCategory = $(this).val();
-    populateVisaOptions(selectedCategory); // Populate the visa dropdown based on the selected category
-});
-
-// Function to populate the service dropdown based on the selected visa
-function populateServiceOptions(selectedVisa) {
+// Function to populate the service dropdown based on the selected product ID
+function populateServiceOptions(selectedProductId) {
     const serviceSelect = $("#service");
 
     // Clear existing options
@@ -461,29 +478,51 @@ function populateServiceOptions(selectedVisa) {
     // Add default option
     serviceSelect.append('<option value="">Select Service</option>');
 
-    // Filter and add services based on the selected visa
-    const filteredServices = productData.filter(product => product.productName === selectedVisa);
+    // Filter and add services based on the selected product ID
+    const filteredServices = productData.filter(product => product.id === selectedProductId);
 
     filteredServices.forEach(function (service) {
         const option = $("<option></option>")
-            .val(service.service)
-            .text(service.service);
+            .val(service.service)  // Use the service as value
+            .text(service.service);  // Show service description
         serviceSelect.append(option);
     });
 }
 
-// Event listener for visa change to populate services dynamically
+// Event listener for productName (visa) change to populate services dynamically based on productId
 $("#productName").on("change", function () {
-    const selectedVisa = $(this).val();
-    populateServiceOptions(selectedVisa); // Populate the service dropdown based on the selected visa
+    const selectedProductId = parseInt($(this).val()); // Get the selected product's id from dropdown
+
+    if (selectedProductId) {
+        populateServiceOptions(selectedProductId);  // Populate services based on product id
+    } else {
+        // If no valid selection, clear service options
+        $("#service").empty().append('<option value="">Select Service</option>');
+    }
 });
+
+// Event listener for category change to populate visa (productName) dropdown
+$("#category").on("change", function () {
+    const selectedCategory = $(this).val();
+    populateVisaOptions(selectedCategory);  // Populate the visa dropdown based on selected category
+});
+
+function getUrlParameter(paramName) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(paramName);
+}
 
 
 async function initializeProduct() {
+    const visitPurpose = getUrlParameter('visit-purpose'); // Get 'visit-purpose' from the URL
+    const visa = decodeURIComponent(getUrlParameter('visa')); // Get 'visa' from the URL, decode for spaces
+
     try {
         await fetchProductData(); // Fetch product data using the service function
-        populateVisitPurposeOptions(); // Populate the visit purpose dropdown
-        populateVisaOptions(); // Populate the visa
+        populateVisitPurposeOptions(visitPurpose);
+        if (visitPurpose) {
+            populateVisaOptions(visitPurpose, visa);
+        }
         populateServiceOptions(); // Populate the service
     } catch (error) {
         alert("Failed to load product. Please try again.");
@@ -500,7 +539,8 @@ document.getElementById("btn-next-review").addEventListener("click", async funct
 
     // Retrieve product details based on the selected visa
     const selectedVisa = $("#productName").val();
-    const selectedProduct = productData.find(product => product.productName === selectedVisa);
+    // Find the selected product from productData using the productId
+    const selectedProduct = productData.find(product => product.id === selectedProductId);
 
     // Ensure product details are available before proceeding
     if (!selectedProduct) {
