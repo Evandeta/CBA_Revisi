@@ -520,10 +520,16 @@ async function initializeProduct() {
     try {
         await fetchProductData(); // Fetch product data using the service function
         populateVisitPurposeOptions(visitPurpose);
-        if (visitPurpose) {
+        if (visitPurpose && visa) {
             populateVisaOptions(visitPurpose, visa);
+
+            // Find the product ID that matches the pre-selected visa
+            const selectedVisaOption = productData.find(product => product.productName === visa);
+            if (selectedVisaOption) {
+                // Pre-select the service dropdown based on the pre-selected visa
+                populateServiceOptions(selectedVisaOption.id); // Use the product ID to populate services
+            }
         }
-        populateServiceOptions(); // Populate the service
     } catch (error) {
         alert("Failed to load product. Please try again.");
     }
