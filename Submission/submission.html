@@ -20,36 +20,49 @@
 </head>
 
 <body>
-    <header class="bg-bv-green sticky z-10 mb-0 px-2 top-0 w-full">
-        <nav class="navbar w-full flex justify-between items-center">
-            <div class="container flex items-center">
-                <a href="https://immigration.cbaservices.id/" class="logo">
-                    <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
-                </a>
-                <ul class="nav-links flex space-x-4 ml-auto">
-                    <li><a href="https://immigration.cbaservices.id" class="hover:text-white">Home</a></li>
-                    <li><a href="order_tracking.html" class="hover:text-white">Tracking Order</a></li>
-                    <li><a href="https://cbaservices.id/contact-us/" class="hover:text-white">Contact</a></li>
-                    <li><a href="https://ds.cbaservices.id/login.html" class="hover:text-white">Agency</a></li>
-                    <!-- <a href="https://ds.cbaservices.id/login.html?category=Business&service=ED21+Multiple+Entry+Business+VISA+%7C+1+Year+%7C+Priority+-+5+working+day(s)" class="hover:text-white">Agency</a> -->
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <nav>
+        <!-- Checkbox for toggling menu -->
+        <input type="checkbox" id="check">
+
+        <!-- Menu icon -->
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+
+        <!-- Site logo -->
+        <a class="logo" href="https://legal.cbaservices.id/">
+            <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
+        </a>
+
+        <!-- Navigation links -->
+        <ul>
+            <li><a href="https://legal.cbaservices.id/">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="https://cbaservices.id/">Services</a></li>
+            <li><a href="https://cbaservices.id/contact-us/">Contact</a></li>
+        </ul>
+    </nav>
+
+
+
+
     <form action="#" class="form">
         <h1 class="text-center">SUBMISSION FORM</h1>
         <div class="form-steps">
             <button class="step-btn" onclick="moveToNextStep(1)">
                 <i class="fas fa-file-alt"></i> Step 1: Document Requirement
             </button>
-            <button class="step-btn" onclick="moveToNextStep(2)">
+            <button class="step-btn client-step" onclick="moveToNextStep(2)">
                 <i class="fas fa-user"></i> Step 2: Client
             </button>
-            <button class="step-btn" onclick="moveToNextStep(3)">
-                <i class="fas fa-check"></i> Step 3: Review Submission
+            <button class="step-btn document-upload" onclick="moveToNextStep(3)">
+                <i class="fas fa-upload"></i> Step 3: Document Upload
             </button>
-            <button class="step-btn" onclick="moveToNextStep(4)">
-                <i class="fas fa-check-double"></i> Step 4: Statement & Confirmation
+            <button class="step-btn review" onclick="moveToNextStep(4)">
+                <i class="fas fa-check"></i> Step 4: Review Submission
+            </button>
+            <button class="step-btn confirm" onclick="moveToNextStep(5)">
+                <i class="fas fa-check-double"></i> Step 5: Confirmation
             </button>
         </div>
         <div class="progress-bar">
@@ -59,7 +72,7 @@
         <!-- Step 1: Document Requirement -->
         <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200"
             id="submissionForm">
-            <div class="form-section" data-step="1" id="">
+            <div class="form-section" data-step="1" id="service-forms-container">
                 <table>
                     <tr>
                         <td>
@@ -125,7 +138,7 @@
         <!-- Step 2: Client -->
         <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
             <div class="form-section hidden" data-step="2" id="client-forms-container">
-                <h2>PERSONAL INFORMATION</h2>
+                <h2 id="personal-info-title">PERSONAL INFORMATION</h2>
                 <table>
                     <tr>
                         <td>
@@ -290,16 +303,56 @@
                     </tr>
                 </table>
                 <div class="btns-group">
-                    <a href="#" class="btn btn-save hidden" id="btn-save-data">Save Data</a>
-                    <a href="#" class="btn btn-prev" id="btn-prev-document">Previous</a>
+                    <!-- <a href="#" class="btn btn-save hidden" id="btn-save-data">Save Data</a>
+                    <a href="#" class="btn btn-prev" id="btn-prev-document">Previous</a> -->
+                    <a href="#" class="btn btn-next" id="btn-next-upload">Next</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Document Upload -->
+        <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
+            <div class="form-section hidden" data-step="3" id="upload-forms-container">
+                <h2>DOCUMENT UPLOAD</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="passport-upload">Upload Passport (PDF/Word, max 5MB)</label>
+                                <input type="file" name="passport-upload" id="passport-upload" accept=".pdf,.doc,.docx"
+                                    required />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="visa-upload">Upload Visa (PDF/Word, max 5MB)</label>
+                                <input type="file" name="visa-upload" id="visa-upload" accept=".pdf,.doc,.docx"
+                                    required />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <label for="support-document-upload">Upload Support Document (PDF/Word, max 5MB)</label>
+                                <input type="file" name="support-document-upload" id="support-document-upload"
+                                    accept=".pdf,.doc,.docx" required />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="btns-group">
+                    <!-- <a href="#" class="btn btn-prev" id="btn-prev-upload">Previous</a> -->
                     <a href="#" class="btn btn-next" id="btn-next-review">Next</a>
                 </div>
             </div>
         </div>
 
-        <!-- Step 3: Review Submission -->
+        <!-- Step 4: Review Submission -->
         <div id="reviewForm" class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
-            <div class="form-section hidden" data-step="3">
+            <div class="form-section hidden" data-step="4" id="reviews-container">
                 <h2 class="font-bold text-2xl mb-4">Review Submission</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                     <div>
@@ -335,111 +388,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- <div>
-                        <h3 class="font-bold text-lg mb-2">Client Information</h3>
-                        <table class="table-auto w-full border-collapse border border-gray-300">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Field</th>
-                                    <th class="w-1/2 border border-gray-300 py-2 px-4">Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Fullname</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-fullName"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Mother Name</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-motherName"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Nationality</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-nationality"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Email</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-email"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Phone</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-phoneNumber"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Address</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-originalAddress"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">City</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-originalCity"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Province</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-originalProvince"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">ZIP Code</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-zipCode"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Country</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-countryId"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Accomodation Name</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-indonesiaAccomodationName"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Accomodation Address</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-accomodation-indonesiaAddress"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Fullname</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergency-emergencyContactFullname"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Relationship</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactRelation"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Address</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactAddress"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Country</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactCountryId"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Email</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactEmail"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Emergency Phone</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-emergencyContactMobilePhone"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Travel Document</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-travelDocument"></td>
-                                </tr>
-                                <tr>
-                                    <td class="border border-gray-300 py-2 px-4">Document Number</td>
-                                    <td class="border border-gray-300 py-2 px-4" id="client-documentNumber"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> -->
                     <div class="client-info-container" id="client-info"></div>
                 </div>
                 <div class="btns-group">
-                    <a href="#" class="btn btn-prev" id="btn-prev-client">Previous</a>
+                    <!-- <a href="#" class="btn btn-prev" id="btn-prev-client">Previous</a> -->
                     <a href="#" class="btn btn-next" id="btn-next-statement" disable>Next</a>
                 </div>
             </div>
         </div>
 
-        <!-- Step 4: Statement & Confirmation -->
+        <!-- Step 5: Statement & Confirmation -->
         <div class="flex flex-col px-4 py-6 lg:px-6 lg:py-8 mb-4 rounded-lg border-2 border-gray-200">
-            <div class="form-section hidden" data-step="4">
+            <div class="form-section hidden" data-step="5" id="confirmation-container">
                 <h3>Payment Method</h3>
                 <p>We accept payment via Visa, Mastercard, and PayPal.</p>
                 <img src="assets/visa.png" alt="Visa" width="100">
@@ -448,8 +408,8 @@
 
                 <h3>Agreement</h3>
                 <p>By submitting this form, I hereby declare that all information provided is true and accurate. I
-                    understand
-                    that any false or misleading information may result in the rejection of my application.</p>
+                    understand that any false or misleading information may result in the rejection of my application.
+                </p>
                 <label>
                     <input type="checkbox" id="agreement" required> I agree to the terms and conditions
                 </label>
@@ -462,127 +422,336 @@
                 </label>
 
                 <div class="btns-group">
-                    <a href="#" class="btn btn-prev" id="btn-prev">Previous</a>
+                    <!-- <a href="#" class="btn btn-prev" id="btn-prev">Previous</a> -->
                     <a href="#" class="btn btn-next" id="submit-btn" disabled>Submit</a>
                 </div>
             </div>
         </div>
     </form>
 
-    <!-- <script>
-        const progress = document.getElementById('progress');
-        const steps = document.querySelectorAll('.form-section');
-        const nextButtons = document.querySelectorAll('.btn-next');
-        const prevButtons = document.querySelectorAll('.btn-prev');
-
-        let currentStep = 1;
-
-        function updateProgressBar() {
-            const progressPercentage = ((currentStep - 1) / (steps.length - 1)) * 100;
-            progress.style.width = progressPercentage + '%';
-        }
-
-        function moveToNextStep(step) {
-            steps.forEach((section, index) => {
-                if (index + 1 === step) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-            currentStep = step;
-            updateProgressBar();
-        }
-
-        function validateStep(step) {
-            const currentSection = steps[step - 1];
-            const inputs = currentSection.querySelectorAll('input, select');
-            let isValid = true;
-
-            inputs.forEach(input => {
-                if (!input.value) {
-                    input.classList.add('border-red-500');
-                    isValid = false;
-                } else {
-                    input.classList.remove('border-red-500');
-                }
-            });
-
-            if (!isValid) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Semua field harus diisi!',
-                });
+    <style>
+        @media (max-width: 700px) {
+            .form-steps {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 92%;
+                padding: 10px;
             }
 
-            return isValid;
-        }
 
-nextButtons.forEach(button => {
-    button.addEventListener('click', async (e) => {
-        e.preventDefault();
-        
-        // Perform validation only on steps where customer data is entered
-        if (currentStep === 2) { 
-            const customerData = {
-                fullName: $("#fullName").val(),
-                motherName: $("#motherName").val(),
-                nationality: $("#nationality").val(),
-                email: $("#email").val(),
-                phoneNumber: $("#phoneNumber").val(),
-                originalAddress: $("#originalAddress").val(),
-                originalCity: $("#originalCity").val(),
-                countryId: $("#countryId").val(),
-                originalProvince: $("#originalProvince").val(),
-                zipCode: $("#zipCode").val(),
-                indonesiaAccomodationName: $("#indonesiaAccomodationName").val(), // Accomodation Name
-                indonesiaAddress: $("#indonesiaAddress").val(), // Accomodation Address
-                emergencyContactFullName: $("#emergencyContactFullName").val(),
-                emergencyContactRelation: $("#emergencyContactRelation").val(),
-                emergencyContactAddress: $("#emergencyContactAddress").val(),
-                emergencyContactCountryId: $("#emergencyContactCountryId").val(),
-                emergencyContactEmail: $("#emergencyContactEmail").val(),
-                emergencyContactMobilePhone: $("#emergencyContactMobilePhone").val(),
-                travelDocument: $("#travelDocument").val(),
-                documentNumber: $("#documentNumber").val(),
-                agentId: $("#referral").val(), // Referral agent ID
-            };
+            .form-steps button {
+                width: 90%;
+                margin-bottom: 10px;
+                font-size: 1.5rem;
+                /* Adjust the font size */
+                padding: 10px;
+                /* Adjust the padding */
+                background-color: #007BFF;
+                /* Blue background */
+                color: white;
+                /* White text */
+                border: none;
+                /* Remove borders */
+                border-radius: 5px;
+                /* Rounded corners */
+                cursor: pointer;
+                /* Pointer/hand icon */
+            }
 
-            // Perform validation
-            const isValid = validateCustomerData(customerData);
-            if (!isValid) {
-                return; // Stop navigation if validation fails
+            .form-steps button:hover {
+                background-color: #0056b3;
+                /* Darker blue */
+            }
+
+            .input-group {
+                width: 92%;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            .btns-group {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btns-group a {
+                width: 90%;
+                margin-bottom: 10px;
+                background-color: #007BFF;
+                /* Blue background */
+                color: white;
+                /* White text */
+                border: none;
+                /* Remove borders */
+                border-radius: 5px;
+                /* Rounded corners */
+                cursor: pointer;
+                /* Pointer/hand icon */
+                text-align: center;
+                /* Center the text */
+                padding: 15px;
+                /* Adjust the padding */
+                text-decoration: none;
+                /* Remove underline */
+            }
+
+            .btns-group a:hover {
+                background-color: #0056b3;
+                /* Darker blue */
+            }
+
+            .mobile-menu-button {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+            }
+
+            .mobile-menu {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                background-color: #333;
+                padding: 1rem;
+            }
+
+            .mobile-menu a {
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 0;
+            }
+
+            .mobile-menu a:hover {
+                color: #ddd;
+            }
+
+            .input-group input,
+            .input-group select {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .form {
+                width: 100%;
+                /* Adjust the width */
+                padding: 10px;
+                /* Adjust the padding */
             }
         }
 
-        if (validateStep(currentStep)) {
-            if (currentStep < steps.length) {
-                moveToNextStep(currentStep + 1);
+        @media (min-width: 769px) {
+            .mobile-menu-button {
+                display: none;
             }
-        } else {
-            // Focus on the first invalid input to guide the user
-            const currentSection = steps[currentStep - 1];
-            const firstInvalidInput = currentSection.querySelector('input, select.border-red-500');
-            if (firstInvalidInput) {
-                firstInvalidInput.focus();
+
+            .form-steps button {
+                background-color: #007BFF;
+                /* Blue background */
+                color: white;
+                /* White text */
+                border: none;
+                /* Remove borders */
+                border-radius: 5px;
+                /* Rounded corners */
+                cursor: pointer;
+                /* Pointer/hand icon */
+                padding: 15px;
+                /* Adjust the padding */
+                font-size: 1rem;
+                /* Adjust the font size */
+            }
+
+            .form-steps button:hover {
+                background-color: #0056b3;
+                /* Darker blue */
+            }
+
+            .btns-group a {
+                background-color: #007BFF;
+                /* Blue background */
+                color: white;
+                /* White text */
+                border: none;
+                /* Remove borders */
+                border-radius: 5px;
+                /* Rounded corners */
+                cursor: pointer;
+                /* Pointer/hand icon */
+                text-align: center;
+                /* Center the text */
+                padding: 15px;
+                /* Adjust the padding */
+                text-decoration: none;
+                /* Remove underline */
+            }
+
+            .btns-group a:hover {
+                background-color: #0056b3;
+                /* Darker blue */
             }
         }
-    });
-});
+    </style>
 
+    <script>
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.querySelector('.mobile-menu');
 
-        prevButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (currentStep > 1) {
-                    moveToNextStep(currentStep - 1);
-                }
-            });
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
+    </script>
 
-        updateProgressBar();
-    </script> -->
+    <script type='text/javascript'>
+        const lazyloadRunObserver = () => {
+            const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
+            const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        let lazyloadBackground = entry.target;
+                        if (lazyloadBackground) {
+                            lazyloadBackground.classList.add('e-lazyloaded');
+                        }
+                        lazyloadBackgroundObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '200px 0px 200px 0px'
+            });
+            lazyloadBackgrounds.forEach((lazyloadBackground) => {
+                lazyloadBackgroundObserver.observe(lazyloadBackground);
+            });
+        };
+        const events = [
+            'DOMContentLoaded',
+            'elementor/lazyload/observe',
+        ];
+        events.forEach((event) => {
+            document.addEventListener(event, lazyloadRunObserver);
+        });
+    </script>
+    <link rel='stylesheet' id='e-animations-css'
+        href='https://cbaservices.id/wp-content/plugins/elementor/assets/lib/animations/animations.min.css?ver=3.21.8'
+        media='all' />
+    <script src="https://cbaservices.id/wp-content/themes/hello-elementor/assets/js/hello-frontend.min.js?ver=3.0.2"
+        id="hello-theme-frontend-js"></script>
+    <script src="https://cbaservices.id/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+    <script src="https://cbaservices.id/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"
+        id="jquery-migrate-js"></script>
+    <script
+        src="https://cbaservices.id/wp-content/plugins/elementor-pro/assets/lib/smartmenus/jquery.smartmenus.min.js?ver=1.0.1"
+        id="smartmenus-js"></script>
+    <script src="https://cbaservices.id/wp-includes/js/imagesloaded.min.js?ver=5.0.0" id="imagesloaded-js"></script>
+    <script
+        src="https://cbaservices.id/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min.js?ver=3.15.1"
+        id="elementor-pro-webpack-runtime-js"></script>
+    <script src="https://cbaservices.id/wp-content/plugins/elementor/assets/js/webpack.runtime.min.js?ver=3.21.8"
+        id="elementor-webpack-runtime-js"></script>
+    <script src="https://cbaservices.id/wp-content/plugins/elementor/assets/js/frontend-modules.min.js?ver=3.21.8"
+        id="elementor-frontend-modules-js"></script>
+    <script src="https://cbaservices.id/wp-includes/js/dist/hooks.min.js?ver=2810c76e705dd1a53b18"
+        id="wp-hooks-js"></script>
+    <script src="https://cbaservices.id/wp-includes/js/dist/i18n.min.js?ver=5e580eb46a90c2b997e6"
+        id="wp-i18n-js"></script>
+    <script id="wp-i18n-js-after">
+        wp.i18n.setLocaleData({
+            'text direction\u0004ltr': ['ltr']
+        });
+    </script>
+    <script id="elementor-pro-frontend-js-before">
+        var ElementorProFrontendConfig = {
+            "ajaxurl": "https:\/\/cbaservices.id\/wp-admin\/admin-ajax.php",
+            "nonce": "4269cd72a9",
+            "urls": {
+                "assets": "https:\/\/cbaservices.id\/wp-content\/plugins\/elementor-pro\/assets\/",
+                "rest": "https:\/\/cbaservices.id\/wp-json\/"
+            },
+            "shareButtonsNetworks": {
+                "facebook": {
+                    "title": "Facebook",
+                    "has_counter": true
+                },
+                "twitter": {
+                    "title": "Twitter"
+                },
+                "linkedin": {
+                    "title": "LinkedIn",
+                    "has_counter": true
+                },
+                "pinterest": {
+                    "title": "Pinterest",
+                    "has_counter": true
+                },
+                "reddit": {
+                    "title": "Reddit",
+                    "has_counter": true
+                },
+                "vk": {
+                    "title": "VK",
+                    "has_counter": true
+                },
+                "odnoklassniki": {
+                    "title": "OK",
+                    "has_counter": true
+                },
+                "tumblr": {
+                    "title": "Tumblr"
+                },
+                "digg": {
+                    "title": "Digg"
+                },
+                "skype": {
+                    "title": "Skype"
+                },
+                "stumbleupon": {
+                    "title": "StumbleUpon",
+                    "has_counter": true
+                },
+                "mix": {
+                    "title": "Mix"
+                },
+                "telegram": {
+                    "title": "Telegram"
+                },
+                "pocket": {
+                    "title": "Pocket",
+                    "has_counter": true
+                },
+                "xing": {
+                    "title": "XING",
+                    "has_counter": true
+                },
+                "whatsapp": {
+                    "title": "WhatsApp"
+                },
+                "email": {
+                    "title": "Email"
+                },
+                "print": {
+                    "title": "Print"
+                }
+            },
+            "facebook_sdk": {
+                "lang": "en_US",
+                "app_id": ""
+            },
+            "lottie": {
+                "defaultAnimationUrl": "https:\/\/cbaservices.id\/wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"
+            }
+        };
+    </script>
 </body>
 
 </html>

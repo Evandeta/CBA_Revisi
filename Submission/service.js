@@ -176,42 +176,66 @@ let allPersonsData = []; // Array to hold data for all persons
 function handleTotalPersonVisibility() {
     totalPerson = parseInt($("#total-person").val()) || 1;
 
-    console.log("Total person:", totalPerson);
+    // // Dynamically update the client steps
+    // updateClientSteps(totalPerson);
 
-    // Show or hide buttons based on the number of people
-    if (totalPerson === 1) {
-        $("#btn-save-data").addClass("hidden"); // Hide the save data button for one person
-        $("#btn-next-review").removeClass("hidden"); // Show the next button for single person
-    } else {
-        $("#btn-save-data").removeClass("hidden").text(`Add Person ${currentPerson}`); // Show and rename button
-        $("#btn-next-review").addClass("hidden"); // Hide the next button until last person
-    }
+    // updateStaticStepNumbers(totalPerson);
 }
+
+function updateClientSteps(totalPerson) {
+    const formStepsContainer = $(".form-steps"); // Select the form steps container
+
+    // Remove any existing dynamically added client steps
+    formStepsContainer.find(".dynamic-client-step").remove();
+
+    // Find the reference for where to start inserting client steps
+    let lastClientStep = formStepsContainer.find(".client-step"); // This is Step 2: Client 1
+
+    // Add the required number of client steps based on totalPerson
+    for (let i = 2; i <= totalPerson; i++) {
+        let clientStepButton = `<button class="step-btn dynamic-client-step" onclick="moveToNextStep(${i + 1})">
+                                    <i class="fas fa-user"></i> Step ${i + 1}: Client ${i}
+                                </button>`;
+
+        // Insert the dynamic client step after the last inserted step
+        lastClientStep.after(clientStepButton);
+
+        // Update the reference to the last inserted step
+        lastClientStep = formStepsContainer.find(".dynamic-client-step").last();
+    }
+
+    // Update the numbering for static steps after the dynamic client steps
+    updateStaticStepNumbers(totalPerson);
+}
+
+function updateStaticStepNumbers(totalPerson) {
+    const formStepsContainer = $(".form-steps");
+    const documentUploadStep = formStepsContainer.find(".document-upload");
+    const reviewSubmissionStep = formStepsContainer.find(".review");
+    const statementStep = formStepsContainer.find(".confirm");
+
+    // Update the numbering based on the number of totalPerson (dynamic client steps)
+    const documentUploadStepNumber = totalPerson + 2;
+    const reviewSubmissionStepNumber = totalPerson + 3;
+    const statementStepNumber = totalPerson + 4;
+
+    // Update text and onclick step number
+    documentUploadStep.html(`<i class="fas fa-upload"></i> Step ${documentUploadStepNumber}: Document Upload`);
+    documentUploadStep.attr("onclick", `moveToNextStep(${documentUploadStepNumber})`);
+
+    reviewSubmissionStep.html(`<i class="fas fa-check"></i> Step ${reviewSubmissionStepNumber}: Review Submission`);
+    reviewSubmissionStep.attr("onclick", `moveToNextStep(${reviewSubmissionStepNumber})`);
+
+    statementStep.html(`<i class="fas fa-check-double"></i> Step ${statementStepNumber}: Statement & Confirmation`);
+    statementStep.attr("onclick", `moveToNextStep(${statementStepNumber})`);
+}
+
 
 // Event listener to trigger the logic when the total person dropdown changes
 $("#total-person").on("change", function () {
     currentPerson = 1; // Reset to the first person when total changes
     allPersonsData = []; // Reset data collection when total changes
     handleTotalPersonVisibility();
-});
-
-// Handle the save button logic for multiple people
-$("#btn-save-data").on("click", async function (e) {
-    e.preventDefault();
-    await handleFormSubmission();
-
-    // Increment the person counter
-    if (currentPerson < totalPerson) {
-        currentPerson++;
-        $("#btn-save-data").text(`Add Person ${currentPerson}`); // Update button text to next person
-        resetForm(); // Reset the form fields for the next person
-    }
-
-    // If it's the last person, hide the "Add Person" button and show the "Next" button
-    if (currentPerson === totalPerson) {
-        $("#btn-save-data").addClass("hidden");
-        $("#btn-next-review").removeClass("hidden");
-    }
 });
 
 function validateCustomerData(customerData) {
@@ -358,16 +382,12 @@ function populateReviewSubmission() {
     $("#document-total-person").text(totalPerson);
     $("#document-referral").text(referral);
 
-    console.log("All persons data:", allPersonsData);
-
     // Clear the existing client information content to refresh with the updated details
     const clientInfoContainer = $("#client-info");
     clientInfoContainer.empty(); // Clear any existing data
 
     // Loop through each person's data and append the information to the review section
     allPersonsData.forEach((data, index) => {
-        console.log(`Appending data for person ${index + 1}`);
-
         // Create dynamic HTML content for each person's information
         const personInfoHTML = `
               <h3 class="font-bold text-lg mb-2">Client Information ${index + 1}</h3>
@@ -538,15 +558,14 @@ async function initializeProduct() {
 // Attach form submission handler to the 'Next' button in the statement section
 document.getElementById("btn-next-review").addEventListener("click", async function (e) {
     e.preventDefault();
-    handleFormSubmission();
 
     // Retrieve quantity from total-person dropdown
     const quantity = parseInt($("#total-person").val(), 10) || 1;
 
     // Retrieve product details based on the selected visa
-    const selectedVisa = $("#productName").val();
+    const selectedProductId = $("#productName").val();
     // Find the selected product from productData using the productId
-    const selectedProduct = productData.find(product => product.id === selectedProductId);
+    const selectedProduct = productData.find(product => product.id === parseInt(selectedProductId));
 
     // Ensure product details are available before proceeding
     if (!selectedProduct) {
@@ -560,77 +579,89 @@ document.getElementById("btn-next-review").addEventListener("click", async funct
         subtotal: selectedProduct.price * quantity, // Calculate subtotal based on product price and quantity
         productId: selectedProduct.id, // Retrieve productId from the selected product
     };
-    console.log("Transaction data:", transactionData);
+    // console.log("Transaction data:", transactionData);
 
     // POST transaction data
-    await postTransactionData(transactionData);
+    // await postTransactionData(transactionData);
 });
 
 // configuration for step
 async function handleStepNavigation(currentStep, steps) {
     const nextButtons = $('.btn-next');
-    const prevButtons = $('.btn-prev');
+    let swalFireMultiplePersonData = false;
 
     nextButtons.on('click', async (e) => {
         e.preventDefault();
 
-        // Perform specific validation for step 2 if required
-        if (currentStep === 2) {
-            const customerData = collectCustomerData(); // Collect customer data for validation
-            const isValid = validateCustomerData(customerData);
+        // Jika berada di Step 2 dan masih ada person yang perlu diisi
+        if (currentStep >= 2 && currentStep <= totalPerson) {
 
-            if (!isValid) {
-                console.log("Validation failed on step 2");
-                return; // Stop navigation if validation fails
+            // Tampilkan Swal konfirmasi sebelum menyimpan data dan melanjutkan
+            const result = await Swal.fire({
+                title: 'Confirm Your Data',
+                text: `Please ensure that all the data you have entered is correct. Once you proceed, no changes can be made to the data.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, the data is correct',
+                cancelButtonText: 'No, I need to review',
+            });
+
+            swalFireMultiplePersonData = true;
+
+            // Jika user memilih "Yes", simpan data dan lanjut ke person berikutnya atau step berikutnya
+            if (result.isConfirmed) {
+                // Save data for the current person
+                await handleFormSubmission();
+
+                // Jika belum mencapai person terakhir, reset form dan lanjutkan ke person berikutnya
+                if (currentPerson < totalPerson) {
+                    currentPerson++;  // Move to the next person
+                    resetForm();  // Clear the form for the next person
+                    updatePersonalInfoTitle(currentPerson, totalPerson);
+                    return; // Tetap di Step 2 tanpa berpindah ke step berikutnya
+                }
+            } else {
+                // Jika user memilih "No", tetap di step ini untuk mereview data
+                return;
             }
         }
 
-        // General step validation
-        const isStepValid = validateStep(currentStep, steps);
-        if (isStepValid) {
-            if (currentStep < steps.length) {
-                currentStep++; // Increment the step only if validation passes
-                moveToNextStep(currentStep, steps);
-                console.log("Moved to next step:", currentStep);
+        // Jika sudah di person terakhir atau bukan Step 2, lanjut ke step berikutnya
+        if (currentStep < steps.length && swalFireMultiplePersonData == false) {
+            const result = await Swal.fire({
+                title: 'Confirm Your Data',
+                text: `Please ensure that all the data you have entered is correct. Once you proceed, no changes can be made to the data.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, the data is correct',
+                cancelButtonText: 'No, I need to review',
+            });
+
+            if (result.isConfirmed) {
+                if (currentStep == 1) {
+                    updatePersonalInfoTitle(currentPerson, totalPerson);
+                }
+                if (currentStep == 2 && currentPerson == 1 && totalPerson == 1) {
+                    await handleFormSubmission();
+                }
+                currentStep++; // Increment step jika bukan lagi Step 2 atau sudah selesai dengan semua person
+                moveToNextStep(currentStep, steps); // Update progress bar and step
             }
         } else {
-            focusOnInvalidField(currentStep, steps); // Focus on the first invalid input
-        }
-    });
-
-    prevButtons.on('click', (e) => {
-        e.preventDefault();
-        if (currentStep > 1) {
-            moveToNextStep(currentStep - 1, steps);
+            currentStep++; // Increment step jika bukan lagi Step 2 atau sudah selesai dengan semua person
+            moveToNextStep(currentStep, steps); // Update progress bar and step
         }
     });
 }
 
-// Function to collect customer data from the form fields
-function collectCustomerData() {
-    return {
-        fullName: $("#fullName").val(),
-        motherName: $("#motherName").val(),
-        nationality: $("#nationality").val(),
-        email: $("#email").val(),
-        phoneNumber: $("#phoneNumber").val(),
-        originalAddress: $("#originalAddress").val(),
-        originalCity: $("#originalCity").val(),
-        countryId: $("#countryId").val(),
-        originalProvince: $("#originalProvince").val(),
-        zipCode: $("#zipCode").val(),
-        indonesiaAccomodationName: $("#indonesiaAccomodationName").val(),
-        indonesiaAddress: $("#indonesiaAddress").val(),
-        emergencyContactFullName: $("#emergencyContactFullName").val(),
-        emergencyContactRelation: $("#emergencyContactRelation").val(),
-        emergencyContactAddress: $("#emergencyContactAddress").val(),
-        emergencyContactCountryId: $("#emergencyContactCountryId").val(),
-        emergencyContactEmail: $("#emergencyContactEmail").val(),
-        emergencyContactMobilePhone: $("#emergencyContactMobilePhone").val(),
-        travelDocument: $("#travelDocument").val(),
-        documentNumber: $("#documentNumber").val(),
-        agentId: $("#referral").val()
-    };
+
+function updatePersonalInfoTitle(currentPerson, totalPerson) {
+    if (totalPerson > 1) {
+        const title = `PERSONAL INFORMATION CLIENT ${currentPerson}`
+        document.getElementById('personal-info-title').innerText = title;
+    } else {
+        document.getElementById('personal-info-title').innerText = 'PERSONAL INFORMATION';
+    }
 }
 
 // Function to focus on the first invalid input field
@@ -645,10 +676,7 @@ function focusOnInvalidField(step, steps) {
 // Function to move to the next or previous step
 function moveToNextStep(step, steps) {
     steps.forEach((section, index) => {
-        console.log("Checking section:", index + 1);
-        console.log("Current step:", step);
         if (index + 1 === step) {
-            console.log("Displaying section:", index + 1);
             section.classList.remove('hidden');
         } else {
             section.classList.add('hidden');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +8,121 @@
   <link rel="icon" type="image/png" href="assets/CBA_Logo.png">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+      }
+
+      .navbar a {
+        display: block;
+        margin: 10px 0;
+      }
+
+      .menu-icon {
+        display: block;
+        cursor: pointer;
+      }
+
+      .navbar ul {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .navbar ul li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .wrapper {
+        padding: 20px;
+      }
+
+      .dbl-field {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .field {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .consultation-type {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .message {
+        width: 100%;
+        position: relative;
+        margin-bottom: 15px;
+      }
+
+      .message textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+        height: 150px;
+        /* Menambahkan tinggi tetap untuk textarea */
+      }
+
+      .message i {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        color: #aaa;
+      }
+
+      .button-area {
+        display: flex;
+        justify-content: center;
+      }
+
+      .button-area button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <nav class="navbar">
-    <a href="https://legal.cbaservices.id/">
+  <nav>
+    <!-- Checkbox for toggling menu -->
+    <input type="checkbox" id="check">
+
+    <!-- Menu icon -->
+    <label for="check" class="checkbtn">
+      <i class="fas fa-bars"></i>
+    </label>
+
+    <!-- Site logo -->
+    <a class="logo" href="https://legal.cbaservices.id/">
       <img src="assets/CBA_Logo.png" alt="Logo" width="150" height="100">
     </a>
+
+    <!-- Navigation links -->
     <ul>
       <li><a href="https://legal.cbaservices.id/">Home</a></li>
       <li><a href="#">About</a></li>
       <li><a href="https://cbaservices.id/">Services</a></li>
       <li><a href="https://cbaservices.id/contact-us/">Contact</a></li>
-    </ul> 
+    </ul>
   </nav>
-  
+
   <div class="wrapper">
     <header>Appointment Form</header>
     <form id="appointment-form" method="post">
@@ -46,7 +147,6 @@
         </div>
       </div>
       <div class="dbl-field">
-        <i class='fas fa-list-alt'></i>
         <div class="field">
           <select name="service" id="service" required>
             <option value="">Select Services</option>
@@ -75,53 +175,70 @@
   </div>
 
   <script>
-      const form = document.getElementById('appointment-form');
+    const form = document.getElementById('appointment-form');
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent default form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Mencegah pengiriman formulir default
 
-        // Create an object to hold the appointment data
-        const appointmentData = {
-          name: form.name.value,  // Get the value of the name field
-          email: form.email.value,  // Get the value of the email field
-          phoneNumber: form.phoneNumber.value,  // Get the value of the phone number field
-          date: form.date.value,  // Get the value of the date field
-          service: form.service.value,  // Get the selected service
-          consultationType: document.querySelector('input[name="consultationType"]:checked').value,  // Get the selected consultation type
-          pesan: document.querySelector('textarea[name="pesan"]').value,
-        };
+      // Membuat objek untuk menyimpan data janji temu
+      const appointmentData = {
+        name: form.name.value,  // Mendapatkan nilai dari field nama
+        email: form.email.value,  // Mendapatkan nilai dari field email
+        phoneNumber: form.phoneNumber.value,  // Mendapatkan nilai dari field nomor telepon
+        date: form.date.value,  // Mendapatkan nilai dari field tanggal
+        service: form.service.value,  // Mendapatkan layanan yang dipilih
+        consultationType: document.querySelector('input[name="consultationType"]:checked').value,  // Mendapatkan jenis konsultasi yang dipilih
+        pesan: document.querySelector('textarea[name="pesan"]').value,
+      };
 
-        // Convert the appointment data to JSON
-        const requestBody = JSON.stringify(appointmentData);
+      // Mengonversi data janji temu ke JSON
+      const requestBody = JSON.stringify(appointmentData);
 
-        // Updated API URL
-        const apiURL = 'https://api.cbaservices.id/appointments';  // Replace with your API endpoint
+      // URL API yang diperbarui
+      const apiURL = 'https://api.cbaservices.id/appointments';  // Ganti dengan endpoint API Anda
 
-        // Fetch request to submit the appointment
-        fetch(apiURL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',  // Set the content type to JSON
-          },
-          body: requestBody  // Send the JSON data as the request body
-        })
+      // Permintaan fetch untuk mengirimkan janji temu
+      fetch(apiURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',  // Mengatur tipe konten ke JSON
+        },
+        body: requestBody  // Mengirimkan data JSON sebagai body permintaan
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          return response.json();  // Convert the response to JSON
+          return response.json();  // Mengonversi respons ke JSON
         })
         .then(data => {
           console.log('Success:', data);
-          alert('Appointment has been successfully submitted!');  // Alert success message
-          form.reset();  // Reset the form after submission
+          alert('Appointment has been successfully submitted!');  // Menampilkan pesan sukses
+          form.reset();  // Mereset formulir setelah pengiriman
+          // Tampilkan pop up notifikasi
+          const notification = document.createElement('div');
+          notification.className = 'notification';
+          notification.innerText = 'Appointment berhasil dikirim!';
+          document.body.appendChild(notification);
+          setTimeout(() => {
+            notification.remove();
+          }, 3000);
         })
         .catch(error => {
           console.error('There was a problem with the fetch operation:', error);
           alert('Error submitting the appointment. Please try again later.');
         });
-      });
+    });
 
+    function toggleMenu() {
+      const menu = document.querySelector('.navbar ul');
+      if (menu.style.display === 'block') {
+        menu.style.display = 'none';
+      } else {
+        menu.style.display = 'block';
+      }
+    }
   </script>
 </body>
+
 </html>

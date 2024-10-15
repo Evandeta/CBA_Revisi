@@ -1,9 +1,6 @@
 /* tambahkan font Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-body {
-  font-family: 'Poppins', sans-serif;
-}
 
 * {
   margin: 0;
@@ -14,12 +11,12 @@ body {
 
 body {
   display: flex;
-  padding: 0 10px;
-  min-height: 100vh;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  /* min-height: 100vh; */
   background-color: #333;
   align-items: center;
   justify-content: center;
-  padding-top: 60px; /* tambahkan padding-top */
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/legalitas.jpg');
   background-size: cover;
   background-position: center;
@@ -29,65 +26,120 @@ body {
   background-color: #f2f2f2;
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.5);
+nav {
+  background-color: #fff;
   backdrop-filter: blur(10px);
-  padding: 1em;
-  text-align: left;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 100px;
+  width: 100%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.14);
 }
 
-.navbar .logo {
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-  margin-right: 0;
-  margin-left: 50px;
+a.logo {
+  line-height: 80px;
+  padding: 0 100px;
 }
 
-.navbar ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+nav ul {
+  float: right;
   margin-right: 20px;
+  margin-top: 10px;
 }
 
-.navbar li {
-  margin-right: 20px;
-}
-.navbar ul li {
+nav ul li {
   display: inline-block;
-  margin-right: 20px;
-}
-.navbar ul li:last-child {
-  margin-right: 0;
-}
-.navbar a {
-  color: #000000;
-  text-decoration: none;
+  line-height: 80px;
+  margin: 0 5px;
 }
 
-.navbar a:hover {
-  color: #333;
+nav ul li a {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  padding: 7px 13px;
+  border-radius: 3px;
 }
+
+a.active,
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  /* menjaga jarak underline ketika di-hover */
+  transition: .5s;
+}
+
+.checkbtn {
+  font-size: 22px;
+  color: white;
+  float: right;
+  line-height: 80px;
+  margin-right: 30px;
+  cursor: pointer;
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  a.logo {
+    padding-left: 30px;
+  }
+
+  nav ul li a {
+    font-size: 16px;
+  }
+}
+
+/* Responsive media query code for small screen */
+/* Responsive media query code for small screen */
+@media (max-width: 890px) {
+  .checkbtn {
+    display: block;
+    margin-top: 10px;
+    color: #000000;
+  }
+
+  label.logo {
+    font-size: 22px;
+  }
+
+  ul {
+    position: fixed;
+    width: 100%;
+    height: 50vh;
+    background: #fff;
+    top: -100vh;
+    /* Geser menu keluar dari layar bagian atas */
+    left: 0;
+    text-align: center;
+    transition: all .5s;
+    z-index: 1000;
+  }
+
+  nav ul li {
+    display: block;
+    margin: 50px 0;
+    line-height: 30px;
+  }
+
+  nav ul li a {
+    font-size: 20px;
+  }
+
+
+  #check:checked~ul {
+    top: 100px;
+    /* Munculkan menu dari atas layar di bawah header */
+  }
+}
+
 ::selection {
   color: #fff;
   background: #0D6EFD;
 }
 
 .wrapper {
+  margin-top: 100px;
   width: 715px;
   background: #fff;
   border-radius: 5px;
@@ -263,4 +315,116 @@ select:focus {
 }
 .btn-submit i {
   font-size: 18px;
+}
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+/* Style khusus untuk mobile phone */
+@media (max-width: 600px) {
+  .navbar ul {
+    display: none;
+  }
+  .navbar a {
+    display: block;
+    text-align: center;
+    padding: 5px;
+  }
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Pindahkan posisi logo ke tengah */
+    width: 100%; /* Kecilkan panjang navbar */
+    height: auto;
+    padding: 1px; /* Kecilkan ukuran padding navbar */
+  }
+  .menu-icon {
+    display: block;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    align-self: flex-end; /* Pindahkan menu icon ke sebelah kanan */
+    margin-top: -50px; /* Tambahkan margin atas untuk posisi yang lebih baik */
+  }
+  .menu-icon:hover {
+    transform: rotate(90deg);
+  }
+  /* Tambahkan ukuran form dan posisikan ke tengah halaman */
+  form {
+    width: 115%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 110%; /* Kecilkan panjang wrapper */
+  }
+  .dbl-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .field {
+    width: 100%; /* Ubah panjang field */
+    margin: 10px 0;
+  }
+  select {
+    width: 100%; /* Ubah panjang select option */
+    padding:  10px;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"] {
+    width: auto;
+    padding: 20px;
+    margin: 2px 0;
+    box-sizing: content-box;
+  }
+  /* Ubah tampilan button submit */
+  input[type="submit"] {
+    width: 100%;
+    padding: 20px; /* Ubah ukuran padding menjadi lebih besar */
+    margin: 10px 0;
+    background-color: #007bff; /* Warna latar belakang biru */
+    color: white; /* Warna teks putih */
+    border: none; /* Hilangkan border */
+    border-radius: 5px; /* Tambahkan border radius */
+    cursor: pointer; /* Ubah cursor menjadi pointer */
+    font-size: 20px; /* Ubah ukuran font menjadi lebih besar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+    transition: background-color 0.3s ease; /* Tambahkan transisi */
+  }
+  input[type="submit"]:hover {
+    background-color: #0056b3; /* Warna latar belakang saat hover */
+  }
+}
+.button-area button {
+  background-color: #0000FF; /* Warna latar belakang biru */
+  color: white; /* Warna teks putih */
+  padding: 15px 32px; /* Padding */
+  text-align: center; /* Teks rata tengah */
+  text-decoration: none; /* Menghilangkan garis bawah */
+  display: inline-block; /* Tampilkan sebagai blok sebaris */
+  font-size: 16px; /* Ukuran font */
+  margin: 4px 2px; /* Margin */
+  cursor: pointer; /* Ubah kursor menjadi pointer */
+  border: none; /* Hilangkan border */
+  border-radius: 12px; /* Sudut border melengkung */
+  transition-duration: 0.4s; /* Durasi transisi */
+}
+
+.button-area button:hover {
+  background-color: white; /* Warna latar belakang putih saat hover */
+  color: black; /* Warna teks hitam saat hover */
+  border: 2px solid #0000FF; /* Border biru saat hover */
 }
